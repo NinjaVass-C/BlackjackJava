@@ -14,4 +14,28 @@ public class Card {
         this.rank = rank;
         this.suit = suit;
     }
+
+    public String toString() {
+        String temp;
+        switch (rank) {
+            case 0:
+                temp = "Ace";
+                break;
+            case 1,2,3,4,5,6,7,8,9:
+                temp = Integer.toString(rank + 1);
+                break;
+            case 10:
+                temp = "Jack";
+                break;
+            case 11:
+                temp = "Queen";
+                break;
+            case 12:
+                temp = "King";
+                break;
+            default:
+                throw new AssertionError("Illegal rank");
+        }
+        return temp + " Of " + suit;
+    }
 }
