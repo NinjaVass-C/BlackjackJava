@@ -57,4 +57,10 @@ public class Deck {
         }
         return initialDeal;
     }
+
+    public Card dealCard() {
+        Card returnedCard = activeDeck.getFirst();
+        activeDeck.removeFirst();
+        return returnedCard;
+    }
 }
