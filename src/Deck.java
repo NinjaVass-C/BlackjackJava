@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Random;
 
 public class Deck {
@@ -42,4 +43,24 @@ public class Deck {
         return activeDeck;
     }
 
+    // for now, assume only one player is being dealt
+    public Card[] dealDeck() {
+        Card[] initialDeal = new Card[4];
+        int count = 0;
+        for (Iterator<Card> iterator = activeDeck.iterator(); iterator.hasNext();) {
+            initialDeal[count] = iterator.next();
+            iterator.remove();
+            count++;
+            if(count == 4){
+                break;
+            }
+        }
+        return initialDeal;
+    }
+
+    public Card dealCard() {
+        Card returnedCard = activeDeck.getFirst();
+        activeDeck.removeFirst();
+        return returnedCard;
+    }
 }

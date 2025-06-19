@@ -38,4 +38,17 @@ public class Card {
         }
         return temp + " Of " + suit;
     }
+    // return value of card.
+    public int getValue() {
+        switch (rank) {
+            case 0:
+                return 0;
+            case 1,2,3,4,5,6,7,8,9:
+                return this.rank + 1;
+            case 10,11,12:
+                return 10;
+            default:
+                throw new AssertionError("Illegal rank");
+        }
+    }
 }
