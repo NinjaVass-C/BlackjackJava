@@ -14,12 +14,36 @@ public class Main {
         Card[] dealt = activeDeck.dealDeck();
         activePlayer.updateHand(new Card[] {dealt[0], dealt[2]});
         activeDealer.updateHand(new Card[] {dealt[1], dealt[3]});
-
-        // for now, print cards for testing.
-        activePlayer.printCards();
+        boolean stand = false;
+        boolean playerBust = false;
+        boolean dealerBust = false;
         activeDealer.displayFirst();
-        activeDealer.printCards();
+        activePlayer.printCards();
 
-        activePlayer.hit(activeDeck.dealCard());
+        while (!playerBust) {
+            stand = activePlayer.turn();
+            if (stand) {
+                break;
+            }
+            playerBust = activePlayer.hit(activeDeck.dealCard());
+        }
+        dealerBust = activeDealer.dealToEnd(activeDeck.getDeck(), playerBust);
+
+        if (dealerBust) {
+            System.out.println("You Win");
+        }
+        else if (playerBust) {
+            System.out.println("You Lose");
+        }
+        else if (activeDealer.getHandValue() > activePlayer.getHandValue()) {
+            System.out.println("You Lose");
+        } else if (activeDealer.getHandValue() < activePlayer.getHandValue()) {
+            System.out.println("You Win");
+        }
+        else {
+            System.out.println("You Push");
+        }
+
+
     }
 }

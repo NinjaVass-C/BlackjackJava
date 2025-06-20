@@ -49,21 +49,43 @@ public class Player {
     }
 
     // draw a card and check if its is greater than 21.
-    public void hit(Card hitCard) {
+    public boolean hit(Card hitCard) {
         hand.add(hitCard);
         this.printCards();
-        this.getHandValue();
+        int value = this.getHandValue();
+        return value > 21;
     }
 
-    public void getHandValue() {
+    public int getHandValue() {
         int total = 0;
         for (Card card : hand) {
             total += card.getValue();
         }
-        System.out.println("Your hand adds up to: " + total);
         if (total > 21) {
             System.out.println("You bust");
         }
+        return total;
+    }
+
+    public boolean turn() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Would you like to hit or stand?");
+        try {
+            String response = input.nextLine();
+            if (response.equalsIgnoreCase("stand")) {
+                return true;
+            }
+            else if (response.equalsIgnoreCase("hit")) {
+                return false;
+            } else {
+                throw new Exception("Invalid input");
+            }
+        }
+        catch (Exception e) {
+            System.out.println("Invalid input");
+            this.turn();
+        }
+        return false;
     }
 
 }
