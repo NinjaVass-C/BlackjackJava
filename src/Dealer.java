@@ -14,12 +14,29 @@ public class Dealer {
     public void displayFirst() {
         System.out.println("Dealer shows " + hand.getFirst());
     }
-    // print dealers cards
-    public void printCards() {
-        System.out.print("Dealer has: ");
+
+    public int getHandValue() {
+        int total = 0;
         for (Card card : hand) {
-            System.out.print(card + " | ");
+            total += card.getValue();
         }
-        System.out.println();
+
+        return total;
+    }
+    // After player stands, deal cards.
+    public boolean dealToEnd(ArrayList<Card> activeDeck, boolean playerBust) {
+        // for now, treat aces as 1. @todo fix for 11 handle
+        if (playerBust) {
+            hand.add(activeDeck.getFirst());
+            activeDeck.remove(activeDeck.getFirst());
+        }
+        else {
+            while (this.getHandValue() < 17) {
+                hand.add(activeDeck.getFirst());
+                activeDeck.remove(activeDeck.getFirst());
+                System.out.println("Dealer has: " + this.getHandValue());
+            }
+        }
+        return this.getHandValue() > 21;
     }
 }
