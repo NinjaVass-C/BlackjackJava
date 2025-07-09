@@ -6,13 +6,24 @@ public class Dealer {
 
     public Dealer() {
     }
+
     public void updateHand(Card[] addedCards) {
+        hand.clear();
         hand.addAll(Arrays.asList(addedCards));
     }
+
     // show dealers cards after deal,
     // @todo if cards equal 21, display blackjack.
     public void displayFirst() {
         System.out.println("Dealer shows " + hand.getFirst());
+    }
+
+    public void printCards() {
+        System.out.print("Dealer has: ");
+        for (Card card : hand) {
+            System.out.print(card + " | ");
+        }
+        System.out.println();
     }
 
     public int getHandValue() {
@@ -24,19 +35,15 @@ public class Dealer {
         return total;
     }
     // After player stands, deal cards.
-    public boolean dealToEnd(ArrayList<Card> activeDeck, boolean playerBust) {
+    public boolean dealToEnd(Deck activeDeck, boolean playerBust) {
         // for now, treat aces as 1. @todo fix for 11 handle
-        if (playerBust) {
-            hand.add(activeDeck.getFirst());
-            activeDeck.remove(activeDeck.getFirst());
-        }
-        else {
+        if (!playerBust) {
             while (this.getHandValue() < 17) {
-                hand.add(activeDeck.getFirst());
-                activeDeck.remove(activeDeck.getFirst());
-                System.out.println("Dealer has: " + this.getHandValue());
+                hand.add(activeDeck.dealCard());
+                printCards();
             }
         }
+        printCards();
         return this.getHandValue() > 21;
     }
 }
