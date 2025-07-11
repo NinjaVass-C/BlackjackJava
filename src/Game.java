@@ -15,6 +15,7 @@ public class Game {
         // do turn by turn calls
         while (!gameOver) {
             int ante = activePlayer.Wager();
+            System.out.println("PLAYER BET: " + ante);
             Card[] dealt = activeDeck.dealDeck();
             activePlayer.updateHand(new Card[]{dealt[0], dealt[2]});
             activeDealer.updateHand(new Card[]{dealt[1], dealt[3]});
@@ -23,7 +24,6 @@ public class Game {
             activePlayer.printCards();
 
             boolean playerBust = activePlayer.turn(activeDeck);
-            System.out.println(playerBust);
             boolean dealerBust = activeDealer.dealToEnd(activeDeck, playerBust);
             gameOver = gameOver(playerBust, dealerBust, ante);
         }
