@@ -8,6 +8,8 @@ public class Player {
     private Hand hand = new Hand("Player");
     private int chips = 500;
     private boolean bust = false;
+    // scanner variable for console input (will be removed with front end)
+    Scanner input = new Scanner(System.in);
 
     public Player(int initialChips) {
         this.chips = initialChips;
@@ -30,27 +32,24 @@ public class Player {
     }
 
     public int Wager() {
-        System.out.println("What would you like to wager (Max 500)? (Current Chips: " + chips + ") ");
-        Scanner input = new Scanner(System.in);
-        boolean valid = false;
-        while (!valid) {
+        while (true) {
             try {
+                System.out.println("What would you like to wager (Max 500)? (Current Chips: " + chips + ") ");
                 int amt = input.nextInt();
                 // @todo add global setting for table limits
                 // for now just do typical limits.
                 if (amt >= 25 && amt <= 500 && amt <= chips) {
                     chips -= amt;
+                    input.nextLine();
                     return amt;
                 } else {
                     throw new Exception("Invalid input");
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input");
-                System.out.println("What would you like to wager (Max 500)? (Current Chips: " + chips + ") ");
                 input.nextLine();
             }
         }
-        return 0;
     }
 
     // update the players hand with new cards.
@@ -74,32 +73,23 @@ public class Player {
     }
     // @todo account for double down
     public boolean turn(Deck activeDeck) {
-        Scanner input = new Scanner(System.in);
-        boolean valid = false;
-        System.out.println("Would you like to hit or stand?");
-        while (!valid) {
-            try {
-                String response = input.nextLine();
-                if (response.equalsIgnoreCase("stand")) {
-                    return false;
-                } else if (response.equalsIgnoreCase("hit")) {
-                    boolean check = this.hit(activeDeck.dealCard());
-                    printCards();
-                    if (check) {
-                        bust = true;
-                        return bust;
-                    }
-                    this.turn(activeDeck);
-                } else {
-                    throw new Exception("Invalid input");
-                }
-            } catch (Exception e) {
-                System.out.println("Invalid input");
+        while (true) {
+            System.out.println("Would you like to hit or stand?");
+            String response = input.nextLine();
+            if (response.equalsIgnoreCase("stand")) {
+                return false;
+            } else if (response.equalsIgnoreCase("hit")) {
+                boolean check = this.hit(activeDeck.dealCard());
                 printCards();
-                System.out.println("Would you like to hit or stand?");
+                if (check) {
+                    bust = true;
+                    return bust;
+                }
+            } else {
+                System.out.println("Invalid input");
             }
         }
-        return true;
     }
-
 }
+
+
