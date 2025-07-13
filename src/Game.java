@@ -4,14 +4,14 @@ public class Game {
     private Dealer activeDealer;
     private Deck activeDeck;
     // Create game objects
-    public boolean startGame(int startChips, int deckNo) {
+    public void startGame(int startChips, int deckNo) {
         activePlayer = new Player(startChips);
         activeDealer = new Dealer();
         activeDeck = new Deck(deckNo);
-        return this.gameLoop(false);
+        this.gameLoop();
     }
 
-    private boolean gameLoop(boolean isOver) {
+    private boolean gameLoop() {
         // do turn by turn calls
         while (!gameOver) {
             int ante = activePlayer.Wager();
