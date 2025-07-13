@@ -29,6 +29,9 @@ public class Player {
         if (hasAutoBlackjack) {
             chips += (int) Math.floor(winnings + (winnings * 1.5));
         }
+        else {
+            chips += winnings * 2;
+        }
         hasAutoBlackjack = false;
     }
 

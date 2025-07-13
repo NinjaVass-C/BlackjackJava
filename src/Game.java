@@ -24,11 +24,15 @@ public class Game {
             activePlayer.printCards();
 
             if (activePlayer.autoBlackjack()) {
+                activeDealer.printCards();
                 this.gameOver(false, false, ante);
+                continue;
             }
             boolean playerBust = activePlayer.turn(activeDeck);
             if (activeDealer.autoBlackjack()) {
+                activeDealer.printCards();
                 this.gameOver(false, false, ante);
+                continue;
             }
             boolean dealerBust = activeDealer.dealToEnd(activeDeck, playerBust);
             gameOver = gameOver(playerBust, dealerBust, ante);
