@@ -1,22 +1,39 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.Random;
+
+/**
+ * Represents a deck for blackjack. Consists of a standard 52 card playing card deck,
+ * multiplied by the amount of decks desired.
+ *
+ * Author: Connor Vass
+ * Version: 1.0
+ * Date: July 13, 2025
+ */
 
 public class Deck {
     // track amount of decks used.
     private int deckNo;
-
+    // constant for total amount of cards in standard playing card deck
     private int totalCards = 52;
     // track remaining cards.
     private ArrayList<Card> activeDeck = new ArrayList<>();
 
+    /**
+     * Non-Default constructor used to determine how many decks are needed,
+     * then loads and shuffles deck.
+     * @param initialDeckNo amount of standard decks combined.
+     */
     public Deck(int initialDeckNo) {
         this.deckNo = initialDeckNo;
         shuffle();
     }
-    // shuffle the "main" deck based off the deckNo used
-    // spade = 0, club = 1, diamond = 2, heart = 3
+
+    /**
+     * Loads the deck with cards, then shuffles them with
+     * Collection shuffle
+     * // spade = 0, club = 1, diamond = 2, heart = 3
+     */
     private void shuffle() {
         // declare needed suits and ranks based of amt of decks
         int suitTracker = 0;
@@ -39,11 +56,13 @@ public class Deck {
         }
         Collections.shuffle(activeDeck);
     }
-    public ArrayList<Card> getDeck() {
-        return activeDeck;
-    }
 
-    // for now, assume only one player is being dealt
+    /**
+     * Deals cards out to all active players and dealer at beginning of each
+     * cycle
+     * @return Card[] initial cards dealt out to players and dealer
+     */
+    // @todo account for more than one player
     public Card[] dealDeck() {
         Card[] initialDeal = new Card[4];
         int count = 0;
@@ -58,6 +77,11 @@ public class Deck {
         return initialDeal;
     }
 
+    /**
+     * Deal individual cards out to players or dealer for hits, doubles, and\
+     * dealer runouts.
+     * @return Card card dealt from deck
+     */
     public Card dealCard() {
         Card returnedCard = activeDeck.getFirst();
         activeDeck.removeFirst();

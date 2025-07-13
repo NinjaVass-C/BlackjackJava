@@ -1,20 +1,35 @@
-/*
-    Used to create individual cards, including their suit and
-    card number
-    0 - Ace
-    1-9 - 2-10
-    10 - Jack
-    11 - Queen
-    12 - King
+/**
+ * Used to create individual cards, including their suit and
+ * card number
+ *  0 - Ace
+ *  1-9 - 2-10
+ *  10 - Jack
+ *  11 - Queen
+ *  12 - King
+ *  Suits - (Hearts, Clubs, Spades, Diamonds)
+ *  Author: Connor Vass
+ *  Version: 1.0
+ *  Date: July 13, 2025
  */
 public class Card {
     private int rank;
     private String suit;
+
+    /**
+     *
+     * @param rank int for rank of card
+     * @param suit String for suit of card
+     */
     public Card(int rank, String suit) {
         this.rank = rank;
         this.suit = suit;
     }
 
+    /**
+     * Used to print out each card in the players and dealers hand
+     * Will be removed in FRONT_END
+     * @return String Card + " of " + Suit
+     */
     public String toString() {
         String temp;
         switch (rank) {
@@ -38,7 +53,12 @@ public class Card {
         }
         return temp + " Of " + suit;
     }
-    // return value of card.
+
+    /**
+     * used to compute the value of each card
+     * @return int value of card
+     */
+    // @todo fix ace handling (See getHand() in Hand class)
     public int getValue() {
         switch (rank) {
             case 0:

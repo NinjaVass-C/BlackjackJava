@@ -1,35 +1,68 @@
+/**
+ * Used to store all game objects required, as well as any logic in between
+ * players and dealers IE Passing cards that are being dealt, win logic, etc.
+ *
+ * Author: Connor Vass
+ * Version: 1.0
+ * Date: July 13, 2025
+ */
+
+
+
 public class Game {
+    // gameOver boolean for game loop
     private boolean gameOver = false;
+    // declare player, dealer, and deck
     private Player activePlayer;
     private Dealer activeDealer;
     private Deck activeDeck;
-    // Create game objects
-    public boolean startGame(int startChips, int deckNo) {
+
+    /**
+     * Give custom values needed to game objects
+     * then trigger game loop
+     *
+     * @param startChips int how many chips player will start with
+     * @param deckNo int how many decks will be used
+     */
+    public void startGame(int startChips, int deckNo) {
         activePlayer = new Player(startChips);
         activeDealer = new Dealer();
         activeDeck = new Deck(deckNo);
-        return this.gameLoop(false);
+        this.gameLoop();
     }
 
-    private boolean gameLoop(boolean isOver) {
+    /**
+     * Main game loop for blackjack, Iterates through loop after every
+     * hand is played, in following pattern
+     * 1. Wagers from players are asked
+     * 2. Dealer deals cards to players, then self
+     * 3. Players make actions, getting cards or staying
+     * 4. Dealer reveals second card, then draws until own hand is greater than equal to 17
+     * 5. Win logic occurs
+     * Cards are shuffled periodically
+     * @return boolean game over
+     */
+    private boolean gameLoop() {
         // do turn by turn calls
         while (!gameOver) {
-            int ante = activePlayer.Wager();
-            System.out.println("PLAYER BET: " + ante);
+            // get players wager
+            activePlayer.Wager();
+            // deal deck to player and dealer
             Card[] dealt = activeDeck.dealDeck();
             activePlayer.updateHand(new Card[]{dealt[0], dealt[2]});
             activeDealer.updateHand(new Card[]{dealt[1], dealt[3]});
-
+            // print cards REMOVED IN FRONT_END
             activeDealer.displayFirst();
             activePlayer.printCards();
-
+            // check if player has natural blackjack, if so go to win conditions immediately
             if (activePlayer.autoBlackjack()) {
                 activeDealer.printCards();
                 this.gameOver(false, false);
                 continue;
             }
-
+            // have player do actions
             boolean playerBust = activePlayer.turn(activeDeck);
+
             if (activeDealer.autoBlackjack()) {
                 activeDealer.printCards();
                 this.gameOver(false, false);
