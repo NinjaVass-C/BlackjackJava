@@ -17,7 +17,15 @@ public class Hand {
     public int getHandValue() {
         int total = 0;
         for (Card card : hand) {
-            total += card.getValue();
+            int value = card.getValue();
+            // check for aces
+            if (value == 11 && (total + value) > 21) {
+                total += 1;
+            }
+            else {
+                total += card.getValue();
+            }
+
         }
         return total;
     }
