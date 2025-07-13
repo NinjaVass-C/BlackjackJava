@@ -3,7 +3,6 @@ import java.util.Arrays;
 
 public class Dealer {
     private Hand hand = new Hand("Dealer");
-    private boolean hasAutoBlackjack = false;
     public Dealer() {
     }
 

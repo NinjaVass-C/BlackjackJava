@@ -25,34 +25,36 @@ public class Game {
 
             if (activePlayer.autoBlackjack()) {
                 activeDealer.printCards();
-                this.gameOver(false, false, ante);
+                this.gameOver(false, false);
                 continue;
             }
+
             boolean playerBust = activePlayer.turn(activeDeck);
             if (activeDealer.autoBlackjack()) {
                 activeDealer.printCards();
-                this.gameOver(false, false, ante);
+                this.gameOver(false, false);
                 continue;
             }
+
             boolean dealerBust = activeDealer.dealToEnd(activeDeck, playerBust);
-            gameOver = gameOver(playerBust, dealerBust, ante);
+            gameOver = this.gameOver(playerBust, dealerBust);
         }
         return false;
     }
     // @todo account for double down
-    private boolean gameOver(boolean playerBust, boolean dealerBust, int ante) {
+    private boolean gameOver(boolean playerBust, boolean dealerBust) {
         if (playerBust) {
             System.out.println("Player busted!");
             return activePlayer.getChips() <= 0;
         }
         if (dealerBust) {
             System.out.println("Dealer busted!");
-            activePlayer.Win(ante);
+            activePlayer.Win();
             return false;
         }
         if (activePlayer.getHandValue() > activeDealer.getHandValue()) {
             System.out.println("Player won!");
-            activePlayer.Win(ante);
+            activePlayer.Win();
             return false;
         }
 
@@ -61,7 +63,7 @@ public class Game {
             return activePlayer.getChips() <= 0;
         }
         System.out.println("Push!");
-        activePlayer.Push(ante);
+        activePlayer.Push();
         return false;
     }
 }
