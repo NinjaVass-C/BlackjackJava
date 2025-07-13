@@ -23,7 +23,13 @@ public class Game {
             activeDealer.displayFirst();
             activePlayer.printCards();
 
+            if (activePlayer.autoBlackjack()) {
+                this.gameOver(false, false, ante);
+            }
             boolean playerBust = activePlayer.turn(activeDeck);
+            if (activeDealer.autoBlackjack()) {
+                this.gameOver(false, false, ante);
+            }
             boolean dealerBust = activeDealer.dealToEnd(activeDeck, playerBust);
             gameOver = gameOver(playerBust, dealerBust, ante);
         }

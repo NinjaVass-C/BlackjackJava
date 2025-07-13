@@ -3,14 +3,13 @@ import java.util.Arrays;
 
 public class Dealer {
     private Hand hand = new Hand("Dealer");
-
+    private boolean hasAutoBlackjack = false;
     public Dealer() {
     }
 
     public void updateHand(Card[] addedCards) {
         hand.updateHand(addedCards);
     }
-
     // show dealers cards after deal,
     // @todo if cards equal 21, display blackjack.
     public void displayFirst() {
@@ -36,4 +35,9 @@ public class Dealer {
         this.printCards();
         return this.getHandValue() > 21;
     }
+
+    public boolean autoBlackjack() {
+        return hand.getHandValue() == 21;
+    }
+
 }
