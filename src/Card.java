@@ -42,7 +42,7 @@ public class Card {
     public int getValue() {
         switch (rank) {
             case 0:
-                return 1;
+                return 11;
             case 1,2,3,4,5,6,7,8,9:
                 return this.rank + 1;
             case 10,11,12:
