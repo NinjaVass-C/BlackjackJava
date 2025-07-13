@@ -8,6 +8,8 @@ public class Player {
     private Hand hand = new Hand("Player");
     private int chips = 500;
     private boolean bust = false;
+    private boolean hasAutoBlackjack = false;
+
     // scanner variable for console input (will be removed with front end)
     Scanner input = new Scanner(System.in);
 
@@ -24,7 +26,13 @@ public class Player {
     }
 
     public void Win (int winnings) {
-        chips += winnings * 2;
+        if (hasAutoBlackjack) {
+            chips += (int) Math.floor(winnings + (winnings * 1.5));
+        }
+        else {
+            chips += winnings * 2;
+        }
+        hasAutoBlackjack = false;
     }
 
     public void Push (int push) {
@@ -34,11 +42,11 @@ public class Player {
     public int Wager() {
         while (true) {
             try {
-                System.out.println("What would you like to wager (Max 500)? (Current Chips: " + chips + ") ");
+                System.out.println("What would you like to wager? (Max 500 Min 25 increment 25) (Current Chips: " + chips + ") ");
                 int amt = input.nextInt();
                 // @todo add global setting for table limits
                 // for now just do typical limits.
-                if (amt >= 25 && amt <= 500 && amt <= chips) {
+                if (amt >= 25 && amt <= 500 && (amt % 25 == 0) && amt <= chips) {
                     chips -= amt;
                     input.nextLine();
                     return amt;
@@ -90,6 +98,12 @@ public class Player {
             }
         }
     }
+
+    public boolean autoBlackjack() {
+        hasAutoBlackjack = hand.getHandValue() == 21;
+        return hasAutoBlackjack;
+    }
+
 }
 
 
