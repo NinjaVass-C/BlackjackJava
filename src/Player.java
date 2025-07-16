@@ -16,6 +16,7 @@ public class Player {
     private int chips = 500;
     private int ante;
     private boolean hasAutoBlackjack = false;
+    private boolean firstTurn = true;
 
     // scanner variable for console input (will be removed with front end)
     Scanner input = new Scanner(System.in);
@@ -103,6 +104,7 @@ public class Player {
      * @return boolean player busted
      */
     public boolean hit(Card hitCard) {
+        firstTurn = false;
         return hand.addCard(hitCard);
     }
 
@@ -126,7 +128,13 @@ public class Player {
      */
     public boolean turn(Deck activeDeck) {
         while (true) {
-            System.out.println("Would you like to hit, stand, or double down?");
+            System.out.print("Would you like to hit or stand");
+            if (firstTurn) {
+                System.out.println(" or double down?");
+            }
+            else {
+                System.out.println("?");
+            }
             String response = input.nextLine();
             if (response.equalsIgnoreCase("stand")) {
                 return false;
@@ -141,7 +149,7 @@ public class Player {
                     return true;
                 }
             }
-            else if (response.equalsIgnoreCase("double")) {
+            else if (response.equalsIgnoreCase("double") && firstTurn) {
                 if (chips < ante) {
                     System.out.println("Not enough chips to double");
                     continue;
@@ -172,6 +180,7 @@ public class Player {
      * sidebets, ante, natural blackjack, etc.
      */
     public void clearConditions() {
+        firstTurn = true;
         ante = 0;
         hasAutoBlackjack = false;
     }
