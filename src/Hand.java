@@ -36,16 +36,19 @@ public class Hand {
     //@todo fix ace handling to properly change to 1 when needed
     public int getHandValue() {
         int total = 0;
+        // used for changeable ace logic
+        int aceCounter = 0;
         for (Card card : hand) {
             int value = card.getValue();
             // check for aces
-            if (value == 11 && (total + value) > 21) {
-                total += 1;
+            if (value == 11) {
+                aceCounter++;
             }
-            else {
-                total += card.getValue();
-            }
-
+            total += value;
+        }
+        while (total > 21 && aceCounter > 0) {
+                total -= 10;
+                aceCounter--;
         }
         return total;
     }
