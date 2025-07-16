@@ -45,6 +45,7 @@ public class Game {
     private boolean gameLoop() {
         // do turn by turn calls
         while (!gameOver) {
+            activeDeck.needToShuffle();
             // get players wager
             activePlayer.Wager();
             // deal deck to player and dealer

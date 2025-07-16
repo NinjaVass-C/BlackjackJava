@@ -14,8 +14,10 @@ import java.util.Iterator;
 public class Deck {
     // track amount of decks used.
     private int deckNo;
-    // constant for total amount of cards in standard playing card deck
-    private int totalCards = 52;
+    // used to randomize shuffles
+    private int cardsNeededToShuffle;
+    // amount of cards in a standard deck
+    private final int cardsInDeck = 52;
     // track remaining cards.
     private ArrayList<Card> activeDeck = new ArrayList<>();
 
@@ -55,6 +57,7 @@ public class Deck {
             }
         }
         Collections.shuffle(activeDeck);
+        cardsNeededToShuffle = this.determineWhenToShuffle();
     }
 
     /**
@@ -86,5 +89,26 @@ public class Deck {
         Card returnedCard = activeDeck.getFirst();
         activeDeck.removeFirst();
         return returnedCard;
+    }
+
+    /**
+     * Generate a random number between 50-75% of the cards
+     * of 52 * amount of decks to simulate casino shuffles
+     */
+    private int determineWhenToShuffle() {
+        int totalCards = cardsInDeck * deckNo;
+        int shuffleInterval = (int) Math.floor(0.5 + Math.random() * (0.75 - 0.5));
+        int targetCards = totalCards - shuffleInterval;
+        return targetCards;
+    }
+
+    /**
+     * Used in game.java to determine when shuffles are needed.
+     */
+    public void needToShuffle() {
+        if (activeDeck.size() <= cardsNeededToShuffle) {
+            System.out.println("SHUFFLING DECK");
+            this.shuffle();
+        }
     }
 }
