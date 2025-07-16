@@ -133,6 +133,10 @@ public class Player {
             } else if (response.equalsIgnoreCase("hit")) {
                 boolean checkBust = this.hit(activeDeck.dealCard());
                 printCards();
+                // break out if blackjack
+                if (this.getHandValue() == 21) {
+                    return false;
+                }
                 if (checkBust) {
                     return true;
                 }
