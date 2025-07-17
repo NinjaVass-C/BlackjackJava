@@ -45,6 +45,7 @@ public class Game {
     private boolean gameLoop() {
         // do turn by turn calls
         while (!gameOver) {
+            System.out.println("THE COUNT IS: " + activeDeck.getTrueCount());
             activeDeck.needToShuffle();
             // get players wager
             activePlayer.Wager();
