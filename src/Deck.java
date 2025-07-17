@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-
 /**
  * Represents a deck for blackjack. Consists of a standard 52 card playing card deck,
  * multiplied by the amount of decks desired.
@@ -20,6 +19,8 @@ public class Deck {
     private final int cardsInDeck = 52;
     // track remaining cards.
     private ArrayList<Card> activeDeck = new ArrayList<>();
+    // counts cards
+    private CardCounter cardCounter = new CardCounter();
 
     /**
      * Non-Default constructor used to determine how many decks are needed,
@@ -39,6 +40,7 @@ public class Deck {
     private void shuffle() {
         // declare needed suits and ranks based of amt of decks
         int suitTracker = 0;
+        cardCounter.resetRunningCount();
         String[] defaultSuits = {"Spades", "Clubs", "Diamonds", "Hearts"};
         String[] suits = new String[4 * deckNo];
         int[] ranks = {0,1,2,3,4,5,6,7,8,9,10,11,12};
@@ -71,6 +73,7 @@ public class Deck {
         int count = 0;
         for (Iterator<Card> iterator = activeDeck.iterator(); iterator.hasNext();) {
             initialDeal[count] = iterator.next();
+            cardCounter.updateRunningCount(initialDeal[count].getValue());
             iterator.remove();
             count++;
             if(count == 4){
@@ -87,6 +90,7 @@ public class Deck {
      */
     public Card dealCard() {
         Card returnedCard = activeDeck.getFirst();
+        cardCounter.updateRunningCount(returnedCard.getValue());
         activeDeck.removeFirst();
         return returnedCard;
     }
@@ -110,5 +114,9 @@ public class Deck {
             System.out.println("SHUFFLING DECK");
             this.shuffle();
         }
+    }
+
+    public int getTrueCount() {
+        return cardCounter.getTrueCount(activeDeck.size());
     }
 }
