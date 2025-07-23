@@ -15,6 +15,7 @@ public class Player {
     private int chips = 500;
     private int ante;
     private boolean hasAutoBlackjack = false;
+    private int handCtr = 1;
 
     // scanner variable for console input (will be removed with front end)
     Scanner input = new Scanner(System.in);
@@ -38,7 +39,7 @@ public class Player {
      */
     public void Wager() {
         this.clearHands();
-        int handCtr = 1;
+
         while (true) {
             try {
                 System.out.println("What would you like to wager? (Max 500 Min 25 increment 25) (Current Chips: " + chips + ") ");
@@ -82,7 +83,8 @@ public class Player {
      * @return boolean player has busted
      */
     public void turn(Deck activeDeck) {
-        for (PlayerHand hand : hands) {
+        for (int i = 0; i < hands.size(); i++) {
+            PlayerHand hand = hands.get(i);
             boolean turnActive = true;
             hand.printCards();
             if (hand.autoBlackjack()) {
@@ -90,6 +92,11 @@ public class Player {
                 turnActive = false;
             }
             while (turnActive) {
+                if (hand.getPlayerHand().getHand().size() == 1) {
+                    hand.getPlayerHand().getHand().add(activeDeck.dealCard());
+                    hand.printCards();
+                    continue;
+                }
                 System.out.print("Would you like to hit or stand");
                 if (hand.getFirstTurn()) {
                     System.out.print(" or double down");
@@ -118,6 +125,11 @@ public class Player {
                     hand.printCards();
                     turnActive = false;
                 }
+                else if (response.equalsIgnoreCase("split") && hand.canSplit()) {
+                    hands.add(hand.getHandNumber(), new PlayerHand(hand.getAnte(), handCtr, hand.getSplitCard()));
+                    chips -= hand.getAnte();
+                    handCtr++;
+                }
                 else {
                     System.out.println("Invalid input");
                 }
@@ -130,6 +142,7 @@ public class Player {
      */
     private void clearHands() {
         hands.clear();
+        handCtr = 1;
     }
 
     /**

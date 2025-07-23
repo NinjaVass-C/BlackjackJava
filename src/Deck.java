@@ -125,4 +125,29 @@ public class Deck {
     public int getTrueCount() {
         return cardCounter.getTrueCount(activeDeck.size());
     }
+
+
+    /**
+     * Used for testing deck deals manually
+     */
+    public ArrayList<Card> testDealDeck(int playerHands) {
+        ArrayList<Card> dealCards = new ArrayList<>();
+        int neededCards = 2 + (2 * playerHands);
+        int count = 0;
+        for (Iterator<Card> iterator = activeDeck.iterator(); iterator.hasNext();) {
+            Card dealtCard = iterator.next();
+            dealCards.add(dealtCard);
+            cardCounter.updateRunningCount(dealtCard.getValue());
+            iterator.remove();
+            count++;
+            if(count == neededCards){
+                break;
+            }
+        }
+        dealCards.remove(0);
+        dealCards.remove(2);
+        dealCards.add(0, new Card(1, "Spades"));
+        dealCards.add(3, new Card(1, "Spades"));
+        return dealCards;
+    }
 }
