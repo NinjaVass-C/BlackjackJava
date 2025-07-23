@@ -64,8 +64,8 @@ public class Deck {
 
     /**
      * Deals cards out to all active players and dealer at beginning of each
-     * cycle
-     * @return Card[] initial cards dealt out to players and dealer
+     * cycle based on the amount of player hands
+     * @return ArrayList<Card> initial cards dealt out to players and dealer
      */
     public ArrayList<Card> dealDeck(int playerHands) {
         ArrayList<Card> dealCards = new ArrayList<>();
@@ -117,6 +117,11 @@ public class Deck {
         }
     }
 
+    /**
+     * Returns the true count of the deck, giving players
+     * who are practicing counting an idea of where they are at
+     * @return int the true count
+     */
     public int getTrueCount() {
         return cardCounter.getTrueCount(activeDeck.size());
     }

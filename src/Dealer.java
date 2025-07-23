@@ -53,10 +53,17 @@ public class Dealer {
         return this.getHandValue();
     }
 
+    /**
+     * Returns the dealers hand
+     * @return hand object
+     */
     public Hand getHand() {
         return hand;
     }
 
+    /**
+     * Function to clear dealers current hand
+     */
     public void WipeCards() {
         hand.getHand().clear();
     }

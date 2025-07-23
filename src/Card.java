@@ -71,9 +71,18 @@ public class Card {
         }
     }
 
+    /**
+     * Gets card suit
+     * @return String card suit
+     */
     public String getSuit() {
         return suit;
     }
+
+    /**
+     * Gets card rank
+     * @return int card rank
+     */
     public int getRank() {
         return rank;
     }

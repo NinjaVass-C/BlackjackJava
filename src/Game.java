@@ -68,6 +68,7 @@ public class Game {
     }
     /**
      * Helper Function for dealing initial cards
+     * Uses passed values for modularity in VERSION 2.0
      */
     public void dealInitialCards (Deck deck, Player player, Dealer dealer) {
         ArrayList<Card> cardsDealt = deck.dealDeck(player.getHands().size());
