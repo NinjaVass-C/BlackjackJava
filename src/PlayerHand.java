@@ -18,6 +18,7 @@ public class PlayerHand {
     private int handNumber;
     private boolean hasAutoBlackjack = false;
     private boolean firstTurn = true;
+    // Non-Default constructor
     public PlayerHand(int initialAnte, int initialHandNumber) {
         ante = initialAnte;
         handNumber = initialHandNumber;
@@ -81,12 +82,20 @@ public class PlayerHand {
         return hasAutoBlackjack;
     }
 
-
+    /**
+     * Doubles the current ante of the hand, then draws a card.
+     * @param activeCard card drawn for double down
+     */
     public void doubleDown(Card activeCard) {
         ante *=2;
         this.hit(activeCard);
     }
 
+    /**
+     * Checks to see if both cards in players hand are the same, if
+     * so allows player to split hands.
+     * @return boolean can split
+      */
     public boolean canSplit() {
         ArrayList<Card> cards = hand.getHand();
         if (cards.size() > 2) {
@@ -95,14 +104,26 @@ public class PlayerHand {
         return (cards.get(0).getSuit().equals(cards.get(1).getSuit()) && (cards.get(0).getRank() == cards.get(1).getRank()));
     }
 
+    /**
+     * Gets the current ante
+     * @return inte ante
+     */
     public int getAnte() {
         return ante;
     }
 
+    /**
+     * Check to see if its players first turn.
+     * @return boolean first turn for hand
+     */
     public boolean getFirstTurn() {
         return firstTurn;
     }
 
+    /**
+     * Used to get instance of hand
+     * @return Hand players current hand
+     */
     public Hand getHand() {
         return hand;
     }
