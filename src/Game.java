@@ -74,12 +74,12 @@ public class Game {
         ArrayList<Card> cardsDealt = deck.dealDeck(player.getHands().size());
         int ctr = 0;
         for (PlayerHand pHand : player.getHands()) {
-            pHand.getHand().addCard(cardsDealt.get(ctr++));
+            pHand.getPlayerHand().addCard(cardsDealt.get(ctr++));
         }
         dealer.getHand().addCard(cardsDealt.get(ctr++));
 
         for (PlayerHand pHand : player.getHands()) {
-            pHand.getHand().addCard(cardsDealt.get(ctr++));
+            pHand.getPlayerHand().addCard(cardsDealt.get(ctr++));
         }
         dealer.getHand().addCard(cardsDealt.get(ctr++));
     }

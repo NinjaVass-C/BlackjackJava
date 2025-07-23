@@ -23,6 +23,11 @@ public class PlayerHand {
         ante = initialAnte;
         handNumber = initialHandNumber;
     }
+    public PlayerHand(int initialAnte, int initialHandNumber, Card splitCard) {
+        ante = initialAnte;
+        handNumber = initialHandNumber;
+        hand.addCard(splitCard);
+    }
 
     /**
      * Win condition logic for player, used to determine winning amount based
@@ -124,7 +129,21 @@ public class PlayerHand {
      * Used to get instance of hand
      * @return Hand players current hand
      */
-    public Hand getHand() {
+    public Hand getPlayerHand() {
         return hand;
+    }
+
+    /**
+     * Gets the hand number
+     * @return int current hand number
+     */
+    public int getHandNumber() {
+        return handNumber;
+    }
+
+    public Card getSplitCard() {
+        Card splitCard = hand.getHand().getFirst();
+        hand.getHand().removeFirst();
+        return splitCard;
     }
 }
