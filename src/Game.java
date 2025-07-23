@@ -1,3 +1,6 @@
+import java.sql.Array;
+import java.util.ArrayList;
+
 /**
  * Used to store all game objects required, as well as any logic in between
  * players and dealers IE Passing cards that are being dealt, win logic, etc.
@@ -49,56 +52,34 @@ public class Game {
             activeDeck.needToShuffle();
             // get players wager
             activePlayer.Wager();
+            activeDealer.WipeCards();
             // deal deck to player and dealer
-            Card[] dealt = activeDeck.dealDeck();
-            activePlayer.updateHand(new Card[]{dealt[0], dealt[2]});
-            activeDealer.updateHand(new Card[]{dealt[1], dealt[3]});
+            dealInitialCards(activeDeck, activePlayer, activeDealer);
             // print cards REMOVED IN FRONT_END
             activeDealer.displayFirst();
-            activePlayer.printCards();
-            // check if player has natural blackjack, if so go to win conditions immediately
-            if (activePlayer.autoBlackjack()) {
-                activeDealer.printCards();
-                this.gameOver(false, false);
-                continue;
-            }
-            // have player do actions
-            boolean playerBust = activePlayer.turn(activeDeck);
+            activePlayer.turn(activeDeck);
+            boolean playerBust = activePlayer.checkHands();
+            activeDealer.printCards();
 
-            if (activeDealer.autoBlackjack()) {
-                activeDealer.printCards();
-                this.gameOver(false, false);
-                continue;
-            }
-
-            boolean dealerBust = activeDealer.dealToEnd(activeDeck, playerBust);
-            gameOver = this.gameOver(playerBust, dealerBust);
+            int dealerCards = activeDealer.dealToEnd(activeDeck, playerBust);
+            gameOver = activePlayer.endTurn(dealerCards);
         }
         return false;
     }
-    // @todo account for double down
-    private boolean gameOver(boolean playerBust, boolean dealerBust) {
-        if (playerBust) {
-            System.out.println("Player busted!");
-            return activePlayer.getChips() <= 0;
+    /**
+     * Helper Function for dealing initial cards
+     */
+    public void dealInitialCards (Deck deck, Player player, Dealer dealer) {
+        ArrayList<Card> cardsDealt = deck.dealDeck(player.getHands().size());
+        int ctr = 0;
+        for (PlayerHand pHand : player.getHands()) {
+            pHand.getHand().addCard(cardsDealt.get(ctr++));
         }
-        if (dealerBust) {
-            System.out.println("Dealer busted!");
-            activePlayer.Win();
-            return false;
-        }
-        if (activePlayer.getHandValue() > activeDealer.getHandValue()) {
-            System.out.println("Player won!");
-            activePlayer.Win();
-            return false;
-        }
+        dealer.getHand().addCard(cardsDealt.get(ctr++));
 
-        if (activeDealer.getHandValue() > activePlayer.getHandValue()) {
-            System.out.println("Dealer won!");
-            return activePlayer.getChips() <= 0;
+        for (PlayerHand pHand : player.getHands()) {
+            pHand.getHand().addCard(cardsDealt.get(ctr++));
         }
-        System.out.println("Push!");
-        activePlayer.Push();
-        return false;
+        dealer.getHand().addCard(cardsDealt.get(ctr++));
     }
 }
