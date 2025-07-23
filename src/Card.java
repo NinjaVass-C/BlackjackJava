@@ -58,7 +58,6 @@ public class Card {
      * used to compute the value of each card
      * @return int value of card
      */
-    // @todo fix ace handling (See getHand() in Hand class)
     public int getValue() {
         switch (rank) {
             case 0:
@@ -70,5 +69,12 @@ public class Card {
             default:
                 throw new AssertionError("Illegal rank");
         }
+    }
+
+    public String getSuit() {
+        return suit;
+    }
+    public int getRank() {
+        return rank;
     }
 }

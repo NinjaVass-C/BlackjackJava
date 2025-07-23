@@ -33,7 +33,6 @@ public class Hand {
      * Aces, which can be 1 or 11
      * @return int value of hand
      */
-    //@todo fix ace handling to properly change to 1 when needed
     public int getHandValue() {
         int total = 0;
         // used for changeable ace logic
@@ -81,7 +80,8 @@ public class Hand {
      */
     public boolean addCard(Card card) {
         hand.add(card);
-        return this.getHandValue() > 21;
+        return this.getHandValue() < 21;
     }
+
 
 }

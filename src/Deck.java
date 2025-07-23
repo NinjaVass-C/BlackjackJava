@@ -67,20 +67,21 @@ public class Deck {
      * cycle
      * @return Card[] initial cards dealt out to players and dealer
      */
-    // @todo account for more than one player
-    public Card[] dealDeck() {
-        Card[] initialDeal = new Card[4];
+    public ArrayList<Card> dealDeck(int playerHands) {
+        ArrayList<Card> dealCards = new ArrayList<>();
+        int neededCards = 2 + (2 * playerHands);
         int count = 0;
         for (Iterator<Card> iterator = activeDeck.iterator(); iterator.hasNext();) {
-            initialDeal[count] = iterator.next();
-            cardCounter.updateRunningCount(initialDeal[count].getValue());
+            Card dealtCard = iterator.next();
+            dealCards.add(dealtCard);
+            cardCounter.updateRunningCount(dealtCard.getValue());
             iterator.remove();
             count++;
-            if(count == 4){
+            if(count == neededCards){
                 break;
             }
         }
-        return initialDeal;
+        return dealCards;
     }
 
     /**

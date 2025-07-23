@@ -17,18 +17,11 @@ public class Dealer {
 
     public Dealer() {
     }
-    /**
-        @param addedCards updates dealer hand with starting cards
-     */
-    public void updateHand(Card[] addedCards) {
-        hand.updateHand(addedCards);
-    }
 
     /**
      * Displays the first card to the player in the console
      * Temp method: Will be removed in FRONT_END
      */
-    // @todo if cards equal 21, display blackjack.
     public void displayFirst() {
         System.out.println("Dealer shows " + hand.getHand().getFirst());
     }
@@ -49,8 +42,7 @@ public class Dealer {
         return hand.getHandValue();
     }
     // After player stands, deal cards.
-    public boolean dealToEnd(Deck activeDeck, boolean playerBust) {
-        // for now, treat aces as 1. @todo fix for 11 handle
+    public int dealToEnd(Deck activeDeck, boolean playerBust) {
         if (!playerBust) {
             while (this.getHandValue() < 17) {
                 this.printCards();
@@ -58,16 +50,14 @@ public class Dealer {
             }
         }
         this.printCards();
-        return this.getHandValue() > 21;
+        return this.getHandValue();
     }
 
-    /**
-     * Function that checks if hand value is equal to 21,
-     * Only called on original dealt hand
-     * @return boolean hand is equal to blackjack
-     */
-    public boolean autoBlackjack() {
-        return hand.getHandValue() == 21;
+    public Hand getHand() {
+        return hand;
     }
 
+    public void WipeCards() {
+        hand.getHand().clear();
+    }
 }
