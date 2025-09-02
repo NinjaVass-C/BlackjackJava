@@ -1,3 +1,5 @@
+package src;
+
 /**
  * Main class for blackjack project
  * Current use is to create game object, pass initial game parameters,

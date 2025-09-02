@@ -1,3 +1,5 @@
+package src;
+
 /**
  * Used to create individual cards, including their suit and
  * card number
