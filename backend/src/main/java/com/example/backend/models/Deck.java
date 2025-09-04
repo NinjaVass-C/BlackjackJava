@@ -1,4 +1,4 @@
-package src;
+package com.example.backend.models;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -128,7 +128,7 @@ public class Deck {
         return cardCounter.getTrueCount(activeDeck.size());
     }
 
-    //@todo create testing class for decks/learn how testing works in springboot
+
     /**
      * Used for testing deck deals manually
      */
