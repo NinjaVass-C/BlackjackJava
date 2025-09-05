@@ -29,6 +29,10 @@ public class PlayerHand {
         handNumber = initialHandNumber;
         hand.addCard(splitCard);
     }
+    // Used to create empty hands before starting game
+    public PlayerHand(int initialAnte) {
+        ante = initialAnte;
+    }
 
     /**
      * Win condition logic for player, used to determine winning amount based

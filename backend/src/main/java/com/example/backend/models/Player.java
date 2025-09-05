@@ -121,7 +121,7 @@ public class Player {
     /**
      * Clears all players current hands
      */
-    private void clearHands() {
+    public void clearHands() {
         hands.clear();
         handCtr = 1;
     }
@@ -173,6 +173,14 @@ public class Player {
             }
         }
         return chips < 25;
+    }
+
+    /**
+     * Used to see how many hands user will play before dealing cards
+     */
+    public void addHand(int ante) {
+        hands.add(new PlayerHand(ante));
+        chips -= ante;
     }
 }
 

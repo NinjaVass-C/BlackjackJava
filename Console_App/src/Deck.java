@@ -104,8 +104,8 @@ public class Deck {
      */
     private int determineWhenToShuffle() {
         int totalCards = cardsInDeck * deckNo;
-        int shuffleInterval = (int) Math.floor(0.5 + Math.random() * (0.75 - 0.5));
-        int targetCards = totalCards - shuffleInterval;
+        double shuffleInterval = 0.5 + Math.random() * 0.25;
+        int targetCards = (int) Math.floor(totalCards * shuffleInterval);
         return targetCards;
     }
 
