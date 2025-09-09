@@ -15,6 +15,8 @@ public class Player {
     private ArrayList<PlayerHand> hands = new ArrayList<>();
     private int chips = 500;
     private int handCtr = 1;
+    private int activeHandIndex = 0;
+
 
 
     /**
@@ -159,7 +161,7 @@ public class Player {
      */
     public boolean compareAgainstDealer(int dealerCards) {
         for (PlayerHand hand : hands) {
-            if (hand.autoBlackjack()) {
+            if (hand.hasAutoBlackjack()) {
                 chips += hand.Win();
             }
             else if (hand.getHandValue() > dealerCards && hand.getHandValue() <= 21) {
@@ -180,8 +182,23 @@ public class Player {
      */
     public void addHand(int ante) {
         hands.add(new PlayerHand(ante));
+        removeChips(ante);
+    }
+
+    public PlayerHand getActiveHand() {
+        return hands.get(activeHandIndex);
+    }
+
+    public void nextHand() {
+        if (activeHandIndex < handCtr) {
+            activeHandIndex++;
+        }
+    }
+
+    public void removeChips(int ante) {
         chips -= ante;
     }
+
 }
 
 
