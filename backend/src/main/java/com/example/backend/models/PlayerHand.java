@@ -18,6 +18,9 @@ public class PlayerHand {
     private int ante;
     private int handNumber;
     private boolean hasAutoBlackjack = false;
+    private boolean hasDoubled = false;
+    private boolean hasBlackJack = false;
+    private boolean hasBust;
     private boolean firstTurn = true;
     // Non-Default constructor
     public PlayerHand(int initialAnte, int initialHandNumber) {
@@ -28,6 +31,10 @@ public class PlayerHand {
         ante = initialAnte;
         handNumber = initialHandNumber;
         hand.addCard(splitCard);
+    }
+    // Used to create empty hands before starting game
+    public PlayerHand(int initialAnte) {
+        ante = initialAnte;
     }
 
     /**
@@ -58,7 +65,12 @@ public class PlayerHand {
      */
     public boolean hit(Card hitCard) {
         firstTurn = false;
-        return hand.addCard(hitCard);
+        hasBust = hand.addCard(hitCard);
+        if (!hasBust) {
+            // checking for hand active,
+            hasBlackJack = getHandValue() != 21;
+        }
+        return !hasBust;
     }
 
     /**
@@ -74,7 +86,7 @@ public class PlayerHand {
      * Only called on original dealt hand
      * @return boolean hand is equal to blackjack
      */
-    public boolean autoBlackjack() {
+    public boolean hasAutoBlackjack() {
         hasAutoBlackjack = hand.getHandValue() == 21;
         return hasAutoBlackjack;
     }
@@ -84,6 +96,7 @@ public class PlayerHand {
      * @param activeCard card drawn for double down
      */
     public void doubleDown(Card activeCard) {
+        hasDoubled = true;
         ante *=2;
         this.hit(activeCard);
     }
@@ -133,9 +146,18 @@ public class PlayerHand {
         return handNumber;
     }
 
-    public Card getSplitCard() {
+    public Card getSplitCard(Card replacementCard) {
         Card splitCard = hand.getHand().getFirst();
         hand.getHand().removeFirst();
+        hand.addCard(replacementCard);
         return splitCard;
+    }
+
+    public boolean getAutoBlackjack() {
+        return hasAutoBlackjack;
+    }
+
+    public boolean getBust() {
+        return getHandValue() > 21;
     }
 }
