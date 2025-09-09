@@ -97,6 +97,7 @@ public class gameService {
                     break;
                 case STAND:
                     handActive = false;
+                    break;
                 default:
                     throw new IllegalArgumentException("Invalid action");
             }
@@ -106,6 +107,21 @@ public class gameService {
         return handActive;
     }
 
+    public void resolveRound() {
+        int dealerCards = dealer.dealToEnd(deck, player.checkAllHandsBust());
+
+        for (PlayerHand pHand : player.getHands()) {
+            if (pHand.getAutoBlackjack()) {
+                player.addChips((int) Math.ceil(pHand.getAnte() + (pHand.getAnte() * 1.5)));
+            }
+            else if (pHand.getHandValue() > dealerCards && !pHand.getBust()) {
+                player.addChips(pHand.getAnte() * 2);
+            }
+            else if (pHand.getHandValue() == dealerCards && !pHand.getBust()) {
+                player.addChips(pHand.getAnte());
+            }
+        }
+    }
 
 
 }
