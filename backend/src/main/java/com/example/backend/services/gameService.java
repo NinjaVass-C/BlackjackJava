@@ -56,13 +56,29 @@ public class gameService {
         }
     }
 
+    /**
+     * Preliminary check for hand, ensuring user does not get asked to make
+     * a turn on an inactive hand
+     * @return hand is active or not.
+     */
+    public boolean checkHandStatus() {
+        PlayerHand hand = player.getActiveHand();
+        if (hand.getAutoBlackjack() || hand.getBust()) {
+            player.nextHand();
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Main decision tree for a players turn, seperates actions
+     * per each hand the player has.
+     * @param action HIT, STAND, DOUBlE, OR SPLIT
+     * @return boolean hand is active or not
+     */
     public boolean playerAction(PlayerAction.Action action) {
         PlayerHand hand = player.getActiveHand();
         boolean handActive = true;
-        if (hand.getAutoBlackjack()) {
-           handActive = false;
-        }
-        else {
             switch (action) {
                 case HIT:
                     handActive = hand.hit(deck.dealCard());
@@ -84,7 +100,6 @@ public class gameService {
                 default:
                     throw new IllegalArgumentException("Invalid action");
             }
-        }
         if (!handActive) {
             player.nextHand();
         }

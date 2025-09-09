@@ -156,4 +156,8 @@ public class PlayerHand {
     public boolean getAutoBlackjack() {
         return hasAutoBlackjack;
     }
+
+    public boolean getBust() {
+        return getHandValue() > 21;
+    }
 }
