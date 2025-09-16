@@ -4,8 +4,6 @@ import com.example.backend.models.*;
 
 import java.util.ArrayList;
 
-import static com.example.backend.models.PlayerAction.Action.HIT;
-
 /**
  * Used to manage game state for application. As this is only used for local
  * games, singleton pattern works for this project.
@@ -15,26 +13,27 @@ import static com.example.backend.models.PlayerAction.Action.HIT;
  * Date: Sept 4th, 2025
  */
 
-public class gameService {
+public class GameService {
     private Player player;
     private Dealer dealer;
     private Deck deck;
 
-    public gameService(int amountOfDecks, int initialChips) {
+    public GameService(int amountOfDecks, int initialChips) {
         this.deck = new Deck(amountOfDecks);
         this.player = new Player(initialChips);
         this.dealer = new Dealer();
     }
 
-    public void addHand(int ante) {
+    public boolean addHand(int ante) {
         if (player.getChips() < ante) {
-            throw new IllegalArgumentException("You do not have enough chips");
+            return false;
         }
         player.addHand(ante);
+        return true;
     }
 
 
-    public void startHand() {
+    public boolean startHand() {
         player.clearHands();
         dealer.WipeCards();
         deck.needToShuffle();
@@ -54,6 +53,7 @@ public class gameService {
         for (PlayerHand pHand : player.getHands()) {
             pHand.hasAutoBlackjack();
         }
+        return true;
     }
 
     /**
@@ -123,5 +123,12 @@ public class gameService {
         }
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Dealer getDealer() {
+        return dealer;
+    }
 
 }

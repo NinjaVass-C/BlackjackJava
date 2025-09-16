@@ -88,6 +88,9 @@ public class Player {
         chips += ante;
     }
 
+    public int getActiveHandIndex() {
+        return activeHandIndex;
+    }
 }
 
 
