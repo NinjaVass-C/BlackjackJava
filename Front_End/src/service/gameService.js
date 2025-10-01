@@ -10,7 +10,7 @@ export const startGame = async (dto) => {
     return res.json();
 }
 
-export const addHand = async () => {
+export const addHand = async (ante) => {
     const res = await fetch("/api/game/hand/add", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
@@ -60,6 +60,17 @@ export const playerAction = async (dto) => {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(dto),
+    });
+    if (!res.ok) {
+        throw new Error("Failed to send player action");
+    }
+    return res.json();
+}
+
+export const resolveRound = async () => {
+    const res = await fetch("/api/game/resolve", {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
     });
     if (!res.ok) {
         throw new Error("Failed to send player action");

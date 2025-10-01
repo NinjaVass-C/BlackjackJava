@@ -53,4 +53,14 @@ public class GameController {
                 game.getPlayer().getActiveHandIndex()
         );
     }
+    @GetMapping("/game/resolve")
+    public GameStateResponse resolveGame() {
+        game.resolveRound();
+        return new GameStateResponse(
+                game.getPlayer().getHands(),
+                game.getDealer().getHand(),
+                game.getPlayer().getChips(),
+                game.getPlayer().getActiveHandIndex()
+        );
+    }
 }
