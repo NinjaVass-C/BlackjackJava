@@ -1,6 +1,7 @@
 package com.example.backend.services;
 
 import com.example.backend.models.*;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
@@ -12,16 +13,13 @@ import java.util.ArrayList;
  * Version: 2.0
  * Date: Sept 4th, 2025
  */
-
+@Service
 public class GameService {
     private Player player;
     private Dealer dealer;
     private Deck deck;
 
-    public GameService(int amountOfDecks, int initialChips) {
-        this.deck = new Deck(amountOfDecks);
-        this.player = new Player(initialChips);
-        this.dealer = new Dealer();
+    public GameService() {
     }
 
     public boolean addHand(int ante) {
@@ -88,11 +86,16 @@ public class GameService {
                         player.removeChips(hand.getAnte());
                         hand.doubleDown(deck.dealCard());
                         handActive = false;
+                    } else {
+                        throw new IllegalArgumentException("Invalid action");
                     }
                     break;
                 case SPLIT:
                     if (player.getChips() >= hand.getAnte() && hand.canSplit()) {
                         player.getHands().add(hand.getHandNumber(), new PlayerHand(hand.getAnte(), player.getHands().size(), hand.getSplitCard(deck.dealCard())));
+                    }
+                    else {
+                        throw new IllegalArgumentException("Invalid action");
                     }
                     break;
                 case STAND:
@@ -129,6 +132,12 @@ public class GameService {
 
     public Dealer getDealer() {
         return dealer;
+    }
+
+    public void setup(int deckNo, int chips) {
+        this.deck = new Deck(deckNo);
+        this.player = new Player(chips);
+        this.dealer = new Dealer();
     }
 
 }
