@@ -13,6 +13,7 @@ export default function GameBoard() {
     const [chips, setChips] = useState(0);
     const [handIndex, setHandIndex] = useState(0);
     const [data, setData] = useState([]);
+    const [turnOver, setTurnOver] = useState(false);
 
     const handleStart = async () => {
         //for now, pass hard coded values for simplicity
@@ -103,6 +104,7 @@ export default function GameBoard() {
         setPlayerHands(data.playerHands)
         setDealerHand(data.dealerHand)
         setHandIndex(data.activeHandIndex)
+        setTurnOver(data.turnOver)
     }
 
     return (
@@ -113,8 +115,17 @@ export default function GameBoard() {
             ) : (
                 <>
                     <div>Api Testing Start</div>
-                    {/*<DealerHand hand={dealerHand} />*/}
-                    {/*<PlayerHand hands={playerHands} />*/}
+                    <div className="dealer-hand-container">
+                        <DealerHand hand={dealerHand} turn={turnOver} />
+                    </div>
+                    <div className="player-hand-container">
+                        {playerHands.map((hand, index) => (
+                            <PlayerHand key={index} hand={hand} />
+                        ))}
+                        <PlayerHand hands={playerHands} />
+                    </div>
+
+
                     {/*<Controls*/}
                     {/*    onAddHand={handleAddHand}*/}
                     {/*    onStartHand={handleStartHand}*/}

@@ -1,7 +1,6 @@
 package com.example.backend.models;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Represents a hand for an individual player or dealer, consists of
@@ -13,7 +12,7 @@ import java.util.Arrays;
  */
 public class Hand {
     // creates arraylist for cards
-    private ArrayList<Card> hand = new ArrayList<>();
+    private ArrayList<Card> cards = new ArrayList<>();
     // used to tell difference between dealer/player
     public Hand () {
     }
@@ -28,7 +27,7 @@ public class Hand {
         int total = 0;
         // used for changeable ace logic
         int aceCounter = 0;
-        for (Card card : hand) {
+        for (Card card : cards) {
             int value = card.getValue();
             // check for aces
             if (value == 11) {
@@ -47,8 +46,8 @@ public class Hand {
      * Returns the player/dealers hand
      * @return ArrayList of cards that make up hand
      */
-    public ArrayList<Card> getHand() {
-        return hand;
+    public ArrayList<Card> getCards() {
+        return cards;
     }
 
 
@@ -59,7 +58,7 @@ public class Hand {
      * @return boolean check if player/dealer busted
      */
     public boolean addCard(Card card) {
-        hand.add(card);
+        cards.add(card);
         return this.getHandValue() < 21;
     }
 

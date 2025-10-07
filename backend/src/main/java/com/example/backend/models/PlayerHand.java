@@ -107,7 +107,7 @@ public class PlayerHand {
      * @return boolean can split
       */
     public boolean canSplit() {
-        ArrayList<Card> cards = hand.getHand();
+        ArrayList<Card> cards = hand.getCards();
         if (cards.size() > 2) {
             return false;
         }
@@ -147,8 +147,8 @@ public class PlayerHand {
     }
 
     public Card getSplitCard(Card replacementCard) {
-        Card splitCard = hand.getHand().getFirst();
-        hand.getHand().removeFirst();
+        Card splitCard = hand.getCards().getFirst();
+        hand.getCards().removeFirst();
         hand.addCard(replacementCard);
         return splitCard;
     }
