@@ -8,6 +8,10 @@ export default function GameBoard() {
     const [gameActive, setGameActive] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [playerHands, setPlayerHands] = useState([]);
+    const [dealerHand, setDealerHand] = useState([]);
+    const [chips, setChips] = useState(0);
+    const [handIndex, setHandIndex] = useState(0);
 
 
     const handleStart = () => {
@@ -19,6 +23,8 @@ export default function GameBoard() {
                 deckNo: 6
             }
             const data = startGame(dto);
+            setPlayerHands(data.playerHands)
+            setGame
         } catch (err) {
             setError("Failed to start game");
             setLoading(false);
@@ -86,4 +92,32 @@ export default function GameBoard() {
             setLoading(false);
         }
     }
+
+    const updateGameState = async (data) => {
+        setChips(data.chips)
+        setPlayerHands(data.playerHands)
+        setDealerHand(data.dealerHand)
+        setHandIndex(data.activeHandIndex)
+    }
+
+    return (
+        <div className="game-board">
+
+            {!gameActive ? (
+                <button onClick={handleStart}>Start Game</button>
+            ) : (
+                <>
+                    <DealerHand hand={dealerHand} />
+                    <PlayerHand hands={playerHands} />
+                    <Controls
+                        onAddHand={handleAddHand}
+                        onStartHand={handleStartHand}
+                        onAction={handlePlayerAction}
+                        onResolve={handleResolveRound}
+                    />
+                    <p>Chips: {chips}</p>
+                </>
+            )}
+        </div>
+    );
 }
