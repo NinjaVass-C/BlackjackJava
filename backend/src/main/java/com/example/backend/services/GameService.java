@@ -41,12 +41,12 @@ public class GameService {
         for (PlayerHand pHand : player.getHands()) {
             pHand.getPlayerHand().addCard(cardsDealt.get(ctr++));
         }
-        dealer.getHand().addCard(cardsDealt.get(ctr++));
+        dealer.getCards().addCard(cardsDealt.get(ctr++));
 
         for (PlayerHand pHand : player.getHands()) {
             pHand.getPlayerHand().addCard(cardsDealt.get(ctr++));
         }
-        dealer.getHand().addCard(cardsDealt.get(ctr++));
+        dealer.getCards().addCard(cardsDealt.get(ctr++));
 
         for (PlayerHand pHand : player.getHands()) {
             pHand.hasAutoBlackjack();
@@ -77,6 +77,10 @@ public class GameService {
     public boolean playerAction(PlayerAction.Action action) {
         PlayerHand hand = player.getActiveHand();
         boolean handActive = true;
+        handActive = checkHandStatus();
+        if (!handActive) {
+            return handActive;
+        }
             switch (action) {
                 case HIT:
                     handActive = hand.hit(deck.dealCard());
@@ -124,6 +128,8 @@ public class GameService {
                 player.addChips(pHand.getAnte());
             }
         }
+        player.clearHands();
+        dealer.WipeCards();
     }
 
     public Player getPlayer() {
@@ -139,5 +145,6 @@ public class GameService {
         this.player = new Player(chips);
         this.dealer = new Dealer();
     }
+
 
 }

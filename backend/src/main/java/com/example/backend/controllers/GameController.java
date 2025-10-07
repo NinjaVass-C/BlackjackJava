@@ -8,7 +8,6 @@ import com.example.backend.services.GameService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/game")
@@ -20,19 +19,21 @@ public class GameController {
         this.game.setup(gameSetupRequest.getDeckNo(), gameSetupRequest.getChipNo());
         return new GameStateResponse(
                 game.getPlayer().getHands(),
-                game.getDealer().getHand(),
+                game.getDealer().getCards(),
                 game.getPlayer().getChips(),
-                game.getPlayer().getActiveHandIndex()
+                game.getPlayer().getActiveHandIndex(),
+                game.getPlayer().turnOver()
         );
     }
     @PostMapping("/hand/add")
     public GameStateResponse AddHand(int ante) {
-        boolean success = game.addHand(ante);
+        game.addHand(ante);
         return new GameStateResponse(
                 game.getPlayer().getHands(),
-                game.getDealer().getHand(),
+                game.getDealer().getCards(),
                 game.getPlayer().getChips(),
-                game.getPlayer().getActiveHandIndex()
+                game.getPlayer().getActiveHandIndex(),
+                game.getPlayer().turnOver()
         );
 
     }
@@ -41,9 +42,10 @@ public class GameController {
         game.startHand();
         return new GameStateResponse(
                 game.getPlayer().getHands(),
-                game.getDealer().getHand(),
+                game.getDealer().getCards(),
                 game.getPlayer().getChips(),
-                game.getPlayer().getActiveHandIndex()
+                game.getPlayer().getActiveHandIndex(),
+                game.getPlayer().turnOver()
         );
     }
     @GetMapping("/hand/get")
@@ -52,16 +54,17 @@ public class GameController {
     }
     @GetMapping("/dealer/get")
     public Hand GetDealerHand() {
-        return game.getDealer().getHand();
+        return game.getDealer().getCards();
     }
     @PostMapping("/player/action")
     public GameStateResponse playerAction(@RequestBody PlayerActionRequest request) {
         game.playerAction(request.getAction());
         return new GameStateResponse(
                 game.getPlayer().getHands(),
-                game.getDealer().getHand(),
+                game.getDealer().getCards(),
                 game.getPlayer().getChips(),
-                game.getPlayer().getActiveHandIndex()
+                game.getPlayer().getActiveHandIndex(),
+                game.getPlayer().turnOver()
         );
     }
     @GetMapping("/game/resolve")
@@ -69,9 +72,10 @@ public class GameController {
         game.resolveRound();
         return new GameStateResponse(
                 game.getPlayer().getHands(),
-                game.getDealer().getHand(),
+                game.getDealer().getCards(),
                 game.getPlayer().getChips(),
-                game.getPlayer().getActiveHandIndex()
+                game.getPlayer().getActiveHandIndex(),
+                game.getPlayer().turnOver()
         );
     }
 }

@@ -13,7 +13,7 @@ package com.example.backend.models;
 
 public class Dealer {
     // Creates hand object assigned to dealer
-    private Hand hand = new Hand();
+    private Hand cards = new Hand();
 
     public Dealer() {
     }
@@ -24,13 +24,13 @@ public class Dealer {
      */
     //@todo consider refactor
     public int getHandValue() {
-        return hand.getHandValue();
+        return cards.getHandValue();
     }
     // After player stands, deal cards.
     public int dealToEnd(Deck activeDeck, boolean playerBust) {
         if (!playerBust) {
             while (this.getHandValue() < 17) {
-                hand.addCard(activeDeck.dealCard());
+                cards.addCard(activeDeck.dealCard());
             }
         }
         return this.getHandValue();
@@ -40,14 +40,14 @@ public class Dealer {
      * Returns the dealers hand
      * @return hand object
      */
-    public Hand getHand() {
-        return hand;
+    public Hand getCards() {
+        return cards;
     }
 
     /**
      * Function to clear dealers current hand
      */
     public void WipeCards() {
-        hand.getHand().clear();
+        cards.getCards().clear();
     }
 }

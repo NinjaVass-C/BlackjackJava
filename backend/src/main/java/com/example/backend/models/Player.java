@@ -91,6 +91,10 @@ public class Player {
     public int getActiveHandIndex() {
         return activeHandIndex;
     }
+
+    public boolean turnOver() {
+        return activeHandIndex == hands.size() - 1;
+    }
 }
 
 

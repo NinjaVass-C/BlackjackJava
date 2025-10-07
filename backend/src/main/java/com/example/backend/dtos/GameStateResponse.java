@@ -12,23 +12,13 @@ public class GameStateResponse {
     private Hand dealerHand;
     private int chips;
     private int activeHandIndex;
-    public GameStateResponse(ArrayList<PlayerHand> playerHands, Hand dealerHand, int chips, int activeHandIndex) {
+    private boolean roundOver;
+    public GameStateResponse(ArrayList<PlayerHand> playerHands, Hand dealerHand, int chips, int activeHandIndex, boolean roundOver) {
         this.playerHands = playerHands;
         this.dealerHand = dealerHand;
         this.chips = chips;
         this.activeHandIndex = activeHandIndex;
-    }
-    public ArrayList<PlayerHand> getPlayerHands() {
-        return playerHands;
-    }
-    public Hand getDealerHand() {
-        return dealerHand;
-    }
-    public int getChips() {
-        return chips;
-    }
-    public int getActiveHandIndex() {
-        return activeHandIndex;
+        this.roundOver = roundOver;
     }
 
 }
