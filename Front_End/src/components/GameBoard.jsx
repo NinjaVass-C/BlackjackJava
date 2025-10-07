@@ -1,7 +1,7 @@
 import {useState} from "react";
-import PlayerHand from "/PlayerHand"
-import DealerHand from "/DealerHand.jsx"
-import Controls from "/Controls.jsx"
+import PlayerHand from "./PlayerHand"
+import DealerHand from "./DealerHand.jsx"
+import Controls from "./Controls.jsx"
 import {addHand, getDealerHand, playerAction, resolveRound, startGame, startHand} from "../service/gameService";
 
 export default function GameBoard() {
@@ -12,9 +12,9 @@ export default function GameBoard() {
     const [dealerHand, setDealerHand] = useState([]);
     const [chips, setChips] = useState(0);
     const [handIndex, setHandIndex] = useState(0);
+    const [data, setData] = useState([]);
 
-
-    const handleStart = () => {
+    const handleStart = async () => {
         //for now, pass hard coded values for simplicity
         try {
             setLoading(true);
@@ -22,9 +22,9 @@ export default function GameBoard() {
                 chipNo: 500,
                 deckNo: 6
             }
-            const data = startGame(dto);
-            setPlayerHands(data.playerHands)
-            setGame
+            const data = await startGame(dto);
+            await setData(data);
+            await updateGameState(data)
         } catch (err) {
             setError("Failed to start game");
             setLoading(false);
@@ -33,10 +33,11 @@ export default function GameBoard() {
             setGameActive(true);
         }
     }
-    const handleAddHand = (ante) => {
+    const handleAddHand = async (ante) => {
         try {
             setLoading(true);
-            const data = addHand(ante);
+            const data = await addHand(ante);
+            await updateGameState(data)
         } catch (err) {
             setError("Unable to add hand")
             setLoading(false);
@@ -45,10 +46,11 @@ export default function GameBoard() {
         }
     }
 
-    const handleStartHand = () => {
+    const handleStartHand = async () => {
         try {
             setLoading(true);
-            const data = startHand();
+            const data = await startHand();
+            await updateGameState(data)
         } catch (err) {
             setError("Unable to start hand");
             setLoading(false);
@@ -57,10 +59,11 @@ export default function GameBoard() {
         }
     }
 
-    const handleGetDealerHand = () => {
+    const handleGetDealerHand = async () => {
         try {
             setLoading(true);
-            const data = getDealerHand();
+            const data = await getDealerHand();
+            await setDealerHand(data.dealerHand)
         } catch (err) {
             setError("Unable to get dealer hand");
             setLoading(false);
@@ -69,10 +72,11 @@ export default function GameBoard() {
         }
     }
 
-    const handlePlayerAction = (action) => {
+    const handlePlayerAction = async (action) => {
         try {
             setLoading(true);
-            const data = playerAction(action)
+            const data = await playerAction(action)
+            await updateGameState(data)
         } catch (err) {
             setError("Unable to do action")
             setLoading(false);
@@ -84,7 +88,8 @@ export default function GameBoard() {
     const handleResolveRound = async () => {
         try {
             setLoading(true);
-            const data = resolveRound();
+            const data = await resolveRound();
+            await updateGameState(data)
         } catch (err) {
             setError("Unable to resolve round")
             setLoading(false);
@@ -107,15 +112,17 @@ export default function GameBoard() {
                 <button onClick={handleStart}>Start Game</button>
             ) : (
                 <>
-                    <DealerHand hand={dealerHand} />
-                    <PlayerHand hands={playerHands} />
-                    <Controls
-                        onAddHand={handleAddHand}
-                        onStartHand={handleStartHand}
-                        onAction={handlePlayerAction}
-                        onResolve={handleResolveRound}
-                    />
+                    <div>Api Testing Start</div>
+                    {/*<DealerHand hand={dealerHand} />*/}
+                    {/*<PlayerHand hands={playerHands} />*/}
+                    {/*<Controls*/}
+                    {/*    onAddHand={handleAddHand}*/}
+                    {/*    onStartHand={handleStartHand}*/}
+                    {/*    onAction={handlePlayerAction}*/}
+                    {/*    onResolve={handleResolveRound}*/}
+                    {/*/>*/}
                     <p>Chips: {chips}</p>
+                    <p>Data: {JSON.stringify(data)}</p>
                 </>
             )}
         </div>
