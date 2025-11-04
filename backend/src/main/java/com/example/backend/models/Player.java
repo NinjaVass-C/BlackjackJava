@@ -12,9 +12,8 @@ import java.util.ArrayList;
  */
 public class Player {
     // Declare player variables needed
-    private ArrayList<PlayerHand> hands = new ArrayList<>();
+    private ArrayList<PlayerHand> hands;
     private int chips = 500;
-    private int handCtr = 1;
     private int activeHandIndex = 0;
 
 
@@ -25,6 +24,7 @@ public class Player {
      */
     public Player(int initialChips) {
         this.chips = initialChips;
+        this.hands = new ArrayList<>();
     }
     // getter
     public int getChips() {
@@ -36,7 +36,6 @@ public class Player {
      */
     public void clearHands() {
         hands.clear();
-        handCtr = 1;
     }
 
     /**
@@ -75,7 +74,7 @@ public class Player {
     }
 
     public void nextHand() {
-        if (activeHandIndex < handCtr) {
+        if (activeHandIndex < hands.size() - 1) {
             activeHandIndex++;
         }
     }
