@@ -32,7 +32,6 @@ public class GameService {
 
 
     public boolean startHand() {
-        player.clearHands();
         dealer.WipeCards();
         deck.needToShuffle();
 

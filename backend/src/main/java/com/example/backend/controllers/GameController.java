@@ -1,10 +1,12 @@
 package com.example.backend.controllers;
 
+import com.example.backend.dtos.AnteRequest;
 import com.example.backend.dtos.GameSetupRequest;
 import com.example.backend.dtos.GameStateResponse;
 import com.example.backend.dtos.PlayerActionRequest;
 import com.example.backend.models.*;
 import com.example.backend.services.GameService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -12,41 +14,46 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/api/game")
 public class GameController {
-    GameService game;
+    private final GameService game;
+    public GameController(GameService game) {
+        this.game = game;
+    }
     @PostMapping("/start")
-    public GameStateResponse SetupGame(@RequestBody GameSetupRequest gameSetupRequest, GameService gameService) {
-        this.game = gameService;
+    public ResponseEntity<GameStateResponse> SetupGame(@RequestBody GameSetupRequest gameSetupRequest) {
         this.game.setup(gameSetupRequest.getDeckNo(), gameSetupRequest.getChipNo());
-        return new GameStateResponse(
+       GameStateResponse response = new GameStateResponse(
                 game.getPlayer().getHands(),
                 game.getDealer().getCards(),
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
                 game.getPlayer().turnOver()
         );
+       return ResponseEntity.ok(response);
     }
     @PostMapping("/hand/add")
-    public GameStateResponse AddHand(int ante) {
-        game.addHand(ante);
-        return new GameStateResponse(
+    public ResponseEntity<GameStateResponse> AddHand(@RequestBody AnteRequest anteRequest) {
+        this.game.addHand(anteRequest.getAnte());
+        GameStateResponse response = new GameStateResponse(
                 game.getPlayer().getHands(),
                 game.getDealer().getCards(),
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
                 game.getPlayer().turnOver()
         );
+        return ResponseEntity.ok(response);
 
     }
     @PostMapping("/hand/start")
-    public GameStateResponse StartHand() {
+    public ResponseEntity<GameStateResponse> StartHand() {
         game.startHand();
-        return new GameStateResponse(
+        GameStateResponse response = new GameStateResponse(
                 game.getPlayer().getHands(),
                 game.getDealer().getCards(),
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
                 game.getPlayer().turnOver()
         );
+        return ResponseEntity.ok(response);
     }
     @GetMapping("/hand/get")
     public ArrayList<PlayerHand> GetHands() {
@@ -57,25 +64,30 @@ public class GameController {
         return game.getDealer().getCards();
     }
     @PostMapping("/player/action")
-    public GameStateResponse playerAction(@RequestBody PlayerActionRequest request) {
-        game.playerAction(request.getAction());
-        return new GameStateResponse(
+    public ResponseEntity<GameStateResponse> playerAction(@RequestBody PlayerActionRequest request) {
+        if (!game.getPlayer().turnOver()) {
+            game.playerAction(request.getAction());
+        }
+
+        GameStateResponse response = new GameStateResponse(
                 game.getPlayer().getHands(),
                 game.getDealer().getCards(),
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
                 game.getPlayer().turnOver()
         );
+        return ResponseEntity.ok(response);
     }
     @GetMapping("/game/resolve")
-    public GameStateResponse resolveGame() {
+    public ResponseEntity<GameStateResponse> resolveGame() {
         game.resolveRound();
-        return new GameStateResponse(
+        GameStateResponse response = new GameStateResponse(
                 game.getPlayer().getHands(),
                 game.getDealer().getCards(),
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
                 game.getPlayer().turnOver()
         );
+        return ResponseEntity.ok(response);
     }
 }

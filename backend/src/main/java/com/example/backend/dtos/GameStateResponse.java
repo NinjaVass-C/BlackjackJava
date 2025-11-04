@@ -21,4 +21,20 @@ public class GameStateResponse {
         this.roundOver = roundOver;
     }
 
+    public ArrayList<PlayerHand> getPlayerHands() {
+        return playerHands;
+    }
+    public Hand getDealerHand() {
+        return dealerHand;
+    }
+    public int getChips() {
+        return chips;
+    }
+    public int getActiveHandIndex() {
+        return activeHandIndex;
+    }
+    public boolean isRoundOver() {
+        return roundOver;
+    }
+
 }
