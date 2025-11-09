@@ -65,7 +65,8 @@ public class Player {
      * Used to see how many hands user will play before dealing cards
      */
     public void addHand(int ante) {
-        hands.add(new PlayerHand(ante));
+        int handCtr = hands.size();
+        hands.add(new PlayerHand(ante, handCtr));
         removeChips(ante);
     }
 
