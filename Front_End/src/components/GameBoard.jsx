@@ -1,8 +1,8 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import PlayerHand from "./PlayerHand"
 import DealerHand from "./DealerHand.jsx"
 import Controls from "./Controls.jsx"
-import {addHand, getDealerHand, playerAction, resolveRound, startGame, startHand} from "../service/gameService";
+import {addHand, playerAction, resolveRound, startGame, startHand} from "../service/gameService";
 
 export default function GameBoard() {
     const [gameActive, setGameActive] = useState(false);
@@ -13,27 +13,34 @@ export default function GameBoard() {
     const [chips, setChips] = useState(0);
     const [handIndex, setHandIndex] = useState(0);
     const [data, setData] = useState([]);
-    const [turnOver, setTurnOver] = useState(false);
+    const [turnOver, setTurnOver] = useState(false)
+    const [handRunning, setHandRunning] = useState(false)
 
+    useEffect(() => {
+        console.log("Game active changed:", gameActive);
+    }, [gameActive]);
+    useEffect(() => {
+        console.log("Player Hand: ", playerHands)
+    }, [playerHands])
     const handleStart = async () => {
-        //for now, pass hard coded values for simplicity
         try {
             setLoading(true);
-            const dto = {
-                chipNo: 500,
-                deckNo: 6
-            }
+            setError(null);
+
+            const dto = { chipNo: 500, deckNo: 6 };
             const data = await startGame(dto);
-            await setData(data);
-            await updateGameState(data)
+
+            setData(data);
+            setGameActive(true);
+            updateGameState(data);
         } catch (err) {
             setError("Failed to start game");
-            setLoading(false);
+            console.error(err);
         } finally {
             setLoading(false);
-            setGameActive(true);
         }
-    }
+    };
+
     const handleAddHand = async (ante) => {
         try {
             setLoading(true);
@@ -41,7 +48,7 @@ export default function GameBoard() {
                 "ante": ante
             }
             const data = await addHand(dto);
-            await updateGameState(data)
+            updateGameState(data)
         } catch (err) {
             setError("Unable to add hand")
             setLoading(false);
@@ -54,22 +61,9 @@ export default function GameBoard() {
         try {
             setLoading(true);
             const data = await startHand();
-            await updateGameState(data)
+            updateGameState(data)
         } catch (err) {
             setError("Unable to start hand");
-            setLoading(false);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    const handleGetDealerHand = async () => {
-        try {
-            setLoading(true);
-            const data = await getDealerHand();
-            await setDealerHand(data.dealerHand)
-        } catch (err) {
-            setError("Unable to get dealer hand");
             setLoading(false);
         } finally {
             setLoading(false);
@@ -83,7 +77,7 @@ export default function GameBoard() {
                 "action": action
             }
             const data = await playerAction(dto)
-            await updateGameState(data)
+            updateGameState(data)
         } catch (err) {
             setError("Unable to do action")
             setLoading(false);
@@ -96,7 +90,7 @@ export default function GameBoard() {
         try {
             setLoading(true);
             const data = await resolveRound();
-            await updateGameState(data)
+            updateGameState(data)
         } catch (err) {
             setError("Unable to resolve round")
             setLoading(false);
@@ -105,12 +99,14 @@ export default function GameBoard() {
         }
     }
 
-    const updateGameState = async (data) => {
+    const updateGameState = (data) => {
+        console.log(data)
         setChips(data.chips)
         setPlayerHands(data.playerHands)
         setDealerHand(data.dealerHand)
         setHandIndex(data.activeHandIndex)
         setTurnOver(data.roundOver)
+        setHandRunning(data.handRunning)
     }
 
     return (
@@ -120,27 +116,23 @@ export default function GameBoard() {
                 <button onClick={handleStart}>Start Game</button>
             ) : (
                 <>
-                    <div>Api Testing Start</div>
-                    <div className="dealer-hand-container">
-                        <DealerHand hand={dealerHand} turn={turnOver} />
-                    </div>
-                    <div className="player-hand-container">
-                        {playerHands.map((hand, index) => (
-                            <PlayerHand key={index} hand={hand} />
-                        ))}
-                        <PlayerHand hands={playerHands} />
-                    </div>
-
-
+                    <div className="chipNumber">CHIPS: ${chips} </div>
                     <Controls
                         onAddHand={handleAddHand}
                         onStartHand={handleStartHand}
                         onAction={handlePlayerAction}
                         onResolve={handleResolveRound}
-                        gameInProgress={gameActive}
+                        gameActive={gameActive}
                     />
-                    <p>Chips: {chips}</p>
-                    <p>Data: {JSON.stringify(data)}</p>
+                </>
+            )}
+            {handRunning ? (
+                <>
+                    <PlayerHand hands={playerHands} />
+                    <DealerHand hand={dealerHand} turnOver={turnOver} />
+                </>
+            ) : (
+                <>
                 </>
             )}
         </div>

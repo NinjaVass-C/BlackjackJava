@@ -160,4 +160,6 @@ public class PlayerHand {
     public boolean getBust() {
         return getHandValue() > 21;
     }
+
+    public boolean getHasBlackjack() {return hasBlackJack;}
 }

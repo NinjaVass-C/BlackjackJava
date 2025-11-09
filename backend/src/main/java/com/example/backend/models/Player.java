@@ -34,7 +34,8 @@ public class Player {
     /**
      * Clears all players current hands
      */
-    public void clearHands() {
+
+    public void WipeCards() {
         hands.clear();
     }
 
@@ -75,7 +76,7 @@ public class Player {
     }
 
     public void nextHand() {
-        if (activeHandIndex < hands.size() - 1) {
+        if (activeHandIndex <= hands.size()) {
             activeHandIndex++;
         }
     }
@@ -93,7 +94,7 @@ public class Player {
     }
 
     public boolean turnOver() {
-        return activeHandIndex == hands.size() - 1;
+        return activeHandIndex >= hands.size();
     }
 }
 

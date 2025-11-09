@@ -18,11 +18,19 @@ public class GameService {
     private Player player;
     private Dealer dealer;
     private Deck deck;
+    private boolean handRunning = false;
+    private boolean emptyCards = false;
 
     public GameService() {
     }
 
     public boolean addHand(int ante) {
+        //@todo this is what the front end needs currently, should do something with react to fix the card cleaning process
+        if (emptyCards) {
+            handRunning = false;
+            dealer.WipeCards();
+            player.WipeCards();
+        }
         if (player.getChips() < ante) {
             return false;
         }
@@ -32,7 +40,7 @@ public class GameService {
 
 
     public boolean startHand() {
-        dealer.WipeCards();
+        handRunning = true;
         deck.needToShuffle();
 
         ArrayList<Card> cardsDealt = deck.dealDeck(player.getHands().size());
@@ -60,7 +68,7 @@ public class GameService {
      */
     public boolean checkHandStatus() {
         PlayerHand hand = player.getActiveHand();
-        if (hand.getAutoBlackjack() || hand.getBust()) {
+        if (hand.getAutoBlackjack() || hand.getBust() || hand.getHasBlackjack()) {
             player.nextHand();
             return false;
         }
@@ -126,9 +134,12 @@ public class GameService {
             else if (pHand.getHandValue() == dealerCards && !pHand.getBust()) {
                 player.addChips(pHand.getAnte());
             }
+            else if (pHand.getHandValue() < dealerCards && dealerCards > 21) {
+                player.addChips(pHand.getAnte() * 2);
+            }
         }
-        player.clearHands();
-        dealer.WipeCards();
+        handRunning = false;
+        emptyCards = true;
     }
 
     public Player getPlayer() {
@@ -138,6 +149,8 @@ public class GameService {
     public Dealer getDealer() {
         return dealer;
     }
+
+    public Boolean getHandRunning() { return handRunning; }
 
     public void setup(int deckNo, int chips) {
         this.deck = new Deck(deckNo);

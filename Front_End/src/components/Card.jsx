@@ -1,24 +1,56 @@
 export default function Card({ rank, suit }) {
-    const suitSymbols = {
-        Hearts: "♥",
-        Diamonds: "♦",
-        Clubs: "♣",
-        Spades: "♠"
-    };
+    let suitSymbol = ""
+    const isRed = suit === "Hearts" || suit === "Diamonds";
+    switch (suit) {
+        case "Hearts":
+            suitSymbol = "   ♥      |"
+            break;
+        case "Diamonds":
+            suitSymbol = "   ♦      |"
+            break;
+        case "Clubs":
+            suitSymbol = "   ♣      |"
+            break;
+        case "Spades":
+            suitSymbol = "   ♠      |"
+            break;
+        default:
+            suitSymbol = "   x      |"
+            break;
+    }
+    // I am dumb and forgot to change how this works, maybe later
+    switch (rank) {
+        case 0:
+            rank = "   ACE    |"
+            break;
+        case 10:
+            rank = "  JACK    |"
+            break;
+        case 11:
+            rank = " QUEEN    |"
+            break;
+        case 12:
+            rank = "  KING    |"
+            break;
+        default:
+            rank = "   " + (rank + 1) + "      |"
+            break;
+    }
 
-    const isRed = suit === "HEARTS" || suit === "DIAMONDS";
 
     return (
         <div className={`card ${isRed ? "red" : "black"}`}>
             <pre className="card">
-                {`-------------
-                |             |
-                |   ${rank}   |
-                |             |
-                |             |
-                |  ${suit}    |
-                |             |
-                --------------`}
+{`---------------
+|             |
+|             |
+|   ${rank}          
+|             |
+|             |
+|   ${suitSymbol}          
+|             |
+|             |
+---------------`}
             </pre>
         </div>
     );
