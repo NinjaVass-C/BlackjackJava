@@ -37,7 +37,10 @@ export default function GameBoard() {
     const handleAddHand = async (ante) => {
         try {
             setLoading(true);
-            const data = await addHand(ante);
+            const dto = {
+                "ante": ante
+            }
+            const data = await addHand(dto);
             await updateGameState(data)
         } catch (err) {
             setError("Unable to add hand")
@@ -76,7 +79,10 @@ export default function GameBoard() {
     const handlePlayerAction = async (action) => {
         try {
             setLoading(true);
-            const data = await playerAction(action)
+            const dto = {
+                "action": action
+            }
+            const data = await playerAction(dto)
             await updateGameState(data)
         } catch (err) {
             setError("Unable to do action")
@@ -104,7 +110,7 @@ export default function GameBoard() {
         setPlayerHands(data.playerHands)
         setDealerHand(data.dealerHand)
         setHandIndex(data.activeHandIndex)
-        setTurnOver(data.turnOver)
+        setTurnOver(data.roundOver)
     }
 
     return (
@@ -126,12 +132,13 @@ export default function GameBoard() {
                     </div>
 
 
-                    {/*<Controls*/}
-                    {/*    onAddHand={handleAddHand}*/}
-                    {/*    onStartHand={handleStartHand}*/}
-                    {/*    onAction={handlePlayerAction}*/}
-                    {/*    onResolve={handleResolveRound}*/}
-                    {/*/>*/}
+                    <Controls
+                        onAddHand={handleAddHand}
+                        onStartHand={handleStartHand}
+                        onAction={handlePlayerAction}
+                        onResolve={handleResolveRound}
+                        gameInProgress={gameActive}
+                    />
                     <p>Chips: {chips}</p>
                     <p>Data: {JSON.stringify(data)}</p>
                 </>
