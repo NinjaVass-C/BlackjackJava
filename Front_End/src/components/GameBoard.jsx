@@ -24,6 +24,9 @@ export default function GameBoard() {
     useEffect(() => {
         console.log("Player Hand: ", playerHands)
     }, [playerHands])
+    useEffect(() => {
+        console.log("Dealer Hand: ", dealerHand)
+    }, [playerHands])
     const handleStart = async () => {
         try {
             setLoading(true);

@@ -71,7 +71,7 @@ public class GameService {
         PlayerHand hand = player.getActiveHand();
         if (hand.getAutoBlackjack()) {
             player.nextHand();
-            if (player.turnOver()) {
+            if (!player.turnOver()) {
                 checkHandStatus();
             }
         }

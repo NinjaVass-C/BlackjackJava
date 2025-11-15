@@ -1,12 +1,17 @@
-.dealer-hand {
-    border: 1px solid black;
-    padding: 10px;
-    margin-top: 30px;
+.dealer-container {
+    margin-top:40px;
     display: flex;
-    gap: 5px;
-    min-width: 60px;
-    max-width: 600px;
-    flex-wrap: wrap; /* wrap cards if too many */
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    max-width: 10%;
+
+}
+.dealer-hand {
+    display: flex;
+    gap: 8px;
+    border: solid 1px black;
+    padding: 10px;
 }
 .handValue {
     padding-right: 50px;

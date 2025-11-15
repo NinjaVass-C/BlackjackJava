@@ -50,8 +50,8 @@ public class GameController {
     @PostMapping("/hand/start")
     public ResponseEntity<GameStateResponse> StartHand() {
         if (!game.getPlayer().getHands().isEmpty()) {
-            game.checkHandStatus();
             game.startHand();
+            game.checkHandStatus();
         }
         GameStateResponse response = new GameStateResponse(
                 game.getPlayer().getHands(),
