@@ -26,7 +26,8 @@ public class GameController {
                 game.getDealer().getCards(),
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
-                game.getPlayer().turnOver()
+                game.getPlayer().turnOver(),
+                game.getHandRunning()
         );
        return ResponseEntity.ok(response);
     }
@@ -38,20 +39,25 @@ public class GameController {
                 game.getDealer().getCards(),
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
-                game.getPlayer().turnOver()
+                game.getPlayer().turnOver(),
+                game.getHandRunning()
         );
         return ResponseEntity.ok(response);
 
     }
     @PostMapping("/hand/start")
     public ResponseEntity<GameStateResponse> StartHand() {
-        game.startHand();
+        if (!game.getPlayer().getHands().isEmpty()) {
+            game.checkHandStatus();
+            game.startHand();
+        }
         GameStateResponse response = new GameStateResponse(
                 game.getPlayer().getHands(),
                 game.getDealer().getCards(),
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
-                game.getPlayer().turnOver()
+                game.getPlayer().turnOver(),
+                game.getHandRunning()
         );
         return ResponseEntity.ok(response);
     }
@@ -74,19 +80,23 @@ public class GameController {
                 game.getDealer().getCards(),
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
-                game.getPlayer().turnOver()
+                game.getPlayer().turnOver(),
+                game.getHandRunning()
         );
         return ResponseEntity.ok(response);
     }
-    @GetMapping("/game/resolve")
+    @GetMapping("/resolve")
     public ResponseEntity<GameStateResponse> resolveGame() {
-        game.resolveRound();
+        if (game.getPlayer().turnOver()) {
+            game.resolveRound();
+        }
         GameStateResponse response = new GameStateResponse(
                 game.getPlayer().getHands(),
                 game.getDealer().getCards(),
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
-                game.getPlayer().turnOver()
+                game.getPlayer().turnOver(),
+                game.getHandRunning()
         );
         return ResponseEntity.ok(response);
     }

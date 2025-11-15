@@ -6,11 +6,10 @@ export default function Controls({
                                      onResolve,
                                      gameActive
                                  }) {
-    if (!gameActive) return null; // don't show controls before game starts
+    if (!gameActive) return null;
 
     return (
         <div className="controlButtons">
-            {/* Add a hand */}
             <div>
                 <button
                     className="addHandButton"
@@ -20,7 +19,6 @@ export default function Controls({
                 </button>
             </div>
 
-            {/* Start current hand */}
             <div>
                 <button
                     className="startHandButton"
@@ -30,7 +28,6 @@ export default function Controls({
                 </button>
             </div>
 
-            {/* Player actions */}
             <div className="playerActions">
                 <button
                     className="hitButton"
@@ -54,11 +51,10 @@ export default function Controls({
                     className="splitButton"
                     onClick={() => onAction("SPLIT")}
                 >
-
+                    Split
                 </button>
             </div>
 
-            {/* Resolve round */}
             <div>
                 <button
                     className="px-4 py-2 bg-purple-600 text-white rounded"

@@ -10,10 +10,11 @@ export const startGame = async (dto) => {
     return res.json();
 }
 
-export const addHand = async (ante) => {
+export const addHand = async (dto) => {
     const res = await fetch("/api/game/hand/add", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(dto)
     });
     if (!res.ok) {
         throw new Error("Failed to add hand");
@@ -32,28 +33,6 @@ export const startHand = async () => {
     return res.json();
 }
 
-
-export const getHands = async () => {
-    const res = await fetch("/api/game/hand/get", {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-    });
-    if (!res.ok) {
-        throw new Error("Failed to get hand(s)");
-    }
-    return res.json();
-}
-
-export const getDealerHand = async () => {
-    const res = await fetch("/api/game/dealer/get", {
-        method: "GET",
-        headers: {"Content-Type": "application/json"},
-    });
-    if (!res.ok) {
-        throw new Error("Failed to get dealer hand");
-    }
-    return res.json();
-}
 
 export const playerAction = async (dto) => {
     const res = await fetch("/api/game/player/action", {
