@@ -27,10 +27,11 @@ public class PlayerHand {
         ante = initialAnte;
         handNumber = initialHandNumber;
     }
-    public PlayerHand(int initialAnte, int initialHandNumber, Card splitCard) {
+    public PlayerHand(int initialAnte, int initialHandNumber, Card splitCard, Card deckCard) {
         ante = initialAnte;
         handNumber = initialHandNumber;
         hand.addCard(splitCard);
+        hand.addCard(deckCard);
     }
     // Used to create empty hands before starting game
     public PlayerHand(int initialAnte) {
