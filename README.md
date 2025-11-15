@@ -45,7 +45,7 @@ These instructions cover both the full stack and console versions of the Blackja
 
 ---
 
-## Full Stack Version
+### Full Stack Version
 
 > These instructions assume a typical IDE setup (e.g., IntelliJ, Eclipse, VS Code) with Spring Boot support. There are no external dependencies outside of Spring Boot.
 
@@ -58,7 +58,7 @@ These instructions cover both the full stack and console versions of the Blackja
 
 ---
 
-## Console Version
+### Console Version
 
 1. Download the **console application**.
 2. Open and run the project in your IDE.
