@@ -14,13 +14,15 @@ public class GameStateResponse {
     private int activeHandIndex;
     private boolean roundOver;
     private boolean handRunning;
-    public GameStateResponse(ArrayList<PlayerHand> playerHands, Hand dealerHand, int chips, int activeHandIndex, boolean roundOver, boolean handRunning) {
+    private int trueCount;
+    public GameStateResponse(ArrayList<PlayerHand> playerHands, Hand dealerHand, int chips, int activeHandIndex, boolean roundOver, boolean handRunning, int trueCount) {
         this.playerHands = playerHands;
         this.dealerHand = dealerHand;
         this.chips = chips;
         this.activeHandIndex = activeHandIndex;
         this.roundOver = roundOver;
         this.handRunning = handRunning;
+        this.trueCount = trueCount;
     }
 
     public ArrayList<PlayerHand> getPlayerHands() {
@@ -35,9 +37,7 @@ public class GameStateResponse {
     public int getActiveHandIndex() {
         return activeHandIndex;
     }
-    public boolean getRoundOver() {
-        return roundOver;
-    }
+    public boolean getRoundOver() {return roundOver; }
     public boolean getHandRunning() { return handRunning; }
-
+    public int getTrueCount() { return trueCount; }
 }

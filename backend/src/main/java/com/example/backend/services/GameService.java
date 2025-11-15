@@ -71,7 +71,9 @@ public class GameService {
         PlayerHand hand = player.getActiveHand();
         if (hand.getAutoBlackjack()) {
             player.nextHand();
-            checkHandStatus();
+            if (!player.turnOver()) {
+                checkHandStatus();
+            }
         }
         return true;
     }
@@ -137,7 +139,7 @@ public class GameService {
             else if (pHand.getHandValue() == dealerCards && !pHand.getBust()) {
                 player.addChips(pHand.getAnte());
             }
-            else if (pHand.getHandValue() < dealerCards && dealerCards > 21) {
+            else if (pHand.getHandValue() < dealerCards && dealerCards > 21 && !pHand.getBust()) {
                 player.addChips(pHand.getAnte() * 2);
             }
         }
@@ -154,6 +156,10 @@ public class GameService {
     }
 
     public Boolean getHandRunning() { return handRunning; }
+
+    public int getTrueCount() {
+        return deck.getTrueCount();
+    }
 
     public void setup(int deckNo, int chips) {
         this.deck = new Deck(deckNo);

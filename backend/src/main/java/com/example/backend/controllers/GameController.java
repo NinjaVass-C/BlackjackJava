@@ -27,7 +27,8 @@ public class GameController {
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
                 game.getPlayer().turnOver(),
-                game.getHandRunning()
+                game.getHandRunning(),
+                game.getTrueCount()
         );
        return ResponseEntity.ok(response);
     }
@@ -40,7 +41,8 @@ public class GameController {
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
                 game.getPlayer().turnOver(),
-                game.getHandRunning()
+                game.getHandRunning(),
+                game.getTrueCount()
         );
         return ResponseEntity.ok(response);
 
@@ -48,8 +50,8 @@ public class GameController {
     @PostMapping("/hand/start")
     public ResponseEntity<GameStateResponse> StartHand() {
         if (!game.getPlayer().getHands().isEmpty()) {
-            game.checkHandStatus();
             game.startHand();
+            game.checkHandStatus();
         }
         GameStateResponse response = new GameStateResponse(
                 game.getPlayer().getHands(),
@@ -57,7 +59,8 @@ public class GameController {
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
                 game.getPlayer().turnOver(),
-                game.getHandRunning()
+                game.getHandRunning(),
+                game.getTrueCount()
         );
         return ResponseEntity.ok(response);
     }
@@ -81,7 +84,8 @@ public class GameController {
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
                 game.getPlayer().turnOver(),
-                game.getHandRunning()
+                game.getHandRunning(),
+                game.getTrueCount()
         );
         return ResponseEntity.ok(response);
     }
@@ -96,7 +100,8 @@ public class GameController {
                 game.getPlayer().getChips(),
                 game.getPlayer().getActiveHandIndex(),
                 game.getPlayer().turnOver(),
-                game.getHandRunning()
+                game.getHandRunning(),
+                game.getTrueCount()
         );
         return ResponseEntity.ok(response);
     }

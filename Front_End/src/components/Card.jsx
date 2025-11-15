@@ -23,6 +23,9 @@ export default function Card({ rank, suit }) {
         case 0:
             rank = "   ACE    |"
             break;
+        case 9:
+            rank = "  10      |"
+            break;
         case 10:
             rank = "  JACK    |"
             break;
@@ -39,7 +42,7 @@ export default function Card({ rank, suit }) {
 
 
     return (
-        <div className={`card ${isRed ? "red" : "black"}`}>
+        <div className="card">
             <pre className="card">
 {`---------------
 |             |
