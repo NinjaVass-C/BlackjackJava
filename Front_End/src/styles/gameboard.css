@@ -1,0 +1,21 @@
+.labels {
+    display: flex;
+    gap: 20px;               /* space between labels */
+    align-items: center;      /* vertical alignment */
+    margin: 10px 0;
+    font-family: Arial, sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.labels > div {
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: #f3f3f3; /* light gray background */
+    border: 1px solid #ccc;
+    min-width: 100px;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+

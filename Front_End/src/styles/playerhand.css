@@ -1,0 +1,21 @@
+.player-hand {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+    max-width: 10%
+}
+.hand {
+    display: flex;
+    gap: 8px;
+    border: dashed black;
+}
+.activeHand {
+    display: flex;
+    gap: 8px;
+    border: dashed red;
+}
+.handValue {
+    padding-right: 50px;
+    margin:auto;
+}

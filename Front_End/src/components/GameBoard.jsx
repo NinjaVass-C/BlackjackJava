@@ -3,7 +3,7 @@ import PlayerHand from "./PlayerHand"
 import DealerHand from "./DealerHand.jsx"
 import Controls from "./Controls.jsx"
 import {addHand, playerAction, resolveRound, startGame, startHand} from "../service/gameService";
-
+import "../styles/gameboard.css"
 export default function GameBoard() {
     const [gameActive, setGameActive] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -15,6 +15,8 @@ export default function GameBoard() {
     const [data, setData] = useState([]);
     const [turnOver, setTurnOver] = useState(false)
     const [handRunning, setHandRunning] = useState(false)
+    const [displayCount, setDisplayCount] = useState(false);
+    const [count, setTrueCount] = useState(0)
 
     useEffect(() => {
         console.log("Game active changed:", gameActive);
@@ -95,6 +97,8 @@ export default function GameBoard() {
             setError("Unable to resolve round")
             setLoading(false);
         } finally {
+            // needed for label display
+            setPlayerHands([]);
             setLoading(false);
         }
     }
@@ -107,6 +111,15 @@ export default function GameBoard() {
         setHandIndex(data.activeHandIndex)
         setTurnOver(data.roundOver)
         setHandRunning(data.handRunning)
+        setTrueCount(data.trueCount)
+    }
+
+    const toggleDisplayCount = () => {
+        if (displayCount === true)  {
+            setDisplayCount(false);
+        } else {
+            setDisplayCount(true);
+        }
     }
 
     return (
@@ -116,19 +129,26 @@ export default function GameBoard() {
                 <button onClick={handleStart}>Start Game</button>
             ) : (
                 <>
-                    <div className="chipNumber">CHIPS: ${chips} </div>
+                    <div className="labels">
+                        <div className="chipNumber">CHIPS: ${chips} </div>
+                        {displayCount === true ? (
+                            <div className="cardCount">COUNT = {count}</div>
+                        ) : <></>}
+                        <div className="handCounter">Hands = {playerHands.length} </div>
+                    </div>
                     <Controls
                         onAddHand={handleAddHand}
                         onStartHand={handleStartHand}
                         onAction={handlePlayerAction}
                         onResolve={handleResolveRound}
                         gameActive={gameActive}
+                        toggleCount={toggleDisplayCount}
                     />
                 </>
             )}
             {handRunning ? (
                 <>
-                    <PlayerHand hands={playerHands} />
+                    <PlayerHand hands={playerHands} activeHandIndex = {handIndex} />
                     <DealerHand hand={dealerHand} turnOver={turnOver} />
                 </>
             ) : (

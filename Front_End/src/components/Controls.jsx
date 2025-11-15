@@ -1,10 +1,12 @@
 // src/components/Controls.jsx
+import '../styles/controls.css'
 export default function Controls({
                                      onAddHand,
                                      onStartHand,
                                      onAction,
                                      onResolve,
-                                     gameActive
+                                     gameActive,
+                                     toggleCount
                                  }) {
     if (!gameActive) return null;
 
@@ -57,10 +59,18 @@ export default function Controls({
 
             <div>
                 <button
-                    className="px-4 py-2 bg-purple-600 text-white rounded"
+                    className="resolveRound"
                     onClick={onResolve}
                 >
                     Resolve Round
+                </button>
+            </div>
+            <div>
+                <button
+                    className="toggleCount"
+                    onClick={toggleCount}
+                >
+                    Toggle Card Counter
                 </button>
             </div>
         </div>

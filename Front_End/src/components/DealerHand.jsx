@@ -1,10 +1,11 @@
 import Card from "./Card.jsx";
-
+import '../styles/dealerHand.css'
 export default function DealerHand({ hand, turnOver }) {
 
     if (turnOver === true) {
         return (
             <div className="dealer-hand">
+                DEALER CARDS
                 {hand.cards.map((card, i) => (
                     <pre className="card" key={i}>
                         <Card key={i} rank={card.rank} suit={card.suit} />
