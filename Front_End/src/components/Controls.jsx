@@ -1,5 +1,7 @@
 // src/components/Controls.jsx
+import { useState } from "react"; // <-- import useState
 import '../styles/controls.css'
+
 export default function Controls({
                                      onAddHand,
                                      onStartHand,
@@ -8,14 +10,35 @@ export default function Controls({
                                      gameActive,
                                      toggleCount
                                  }) {
+
+    const [anteAmt, setAnteAmt] = useState("");
+
     if (!gameActive) return null;
+
+    const handleAddHand = () => {
+        const ante = parseInt(anteAmt, 10);
+        if (!isNaN(ante) && ante > 0) {
+            onAddHand(ante);
+            setAnteAmt(""); // optional: clear input after adding
+        } else {
+            alert("Please enter a valid ante amount");
+        }
+    };
 
     return (
         <div className="controlButtons">
             <div>
+                Wager:
+                <input
+                    className="anteAmt"
+                    required
+                    type="number"
+                    value={anteAmt}                  // <-- controlled input
+                    onChange={(e) => setAnteAmt(e.target.value)} // <-- update state
+                />
                 <button
                     className="addHandButton"
-                    onClick={() => onAddHand(25)} // example ante
+                    onClick={handleAddHand}           // <-- call handler
                 >
                     Add Hand
                 </button>

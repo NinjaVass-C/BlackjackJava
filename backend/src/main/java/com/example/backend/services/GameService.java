@@ -32,7 +32,7 @@ public class GameService {
             dealer.WipeCards();
             player.WipeCards();
         }
-        if (player.getChips() < ante) {
+        if (player.getChips() < ante || ante < 25) {
             return false;
         }
         player.addHand(ante);
