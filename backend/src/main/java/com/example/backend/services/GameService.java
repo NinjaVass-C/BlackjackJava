@@ -102,7 +102,7 @@ public class GameService {
                     break;
                 case SPLIT:
                     if (player.getChips() >= hand.getAnte() && hand.canSplit()) {
-                        player.getHands().add(hand.getHandNumber(), new PlayerHand(hand.getAnte(), player.getHands().size(), hand.getSplitCard(deck.dealCard())));
+                        player.getHands().add(hand.getHandNumber(), new PlayerHand(hand.getAnte(), player.getHands().size(), hand.getSplitCard(deck.dealCard()), deck.dealCard()));
                     }
                     else {
                         throw new IllegalArgumentException("Invalid action");

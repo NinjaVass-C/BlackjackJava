@@ -74,7 +74,7 @@ public class GameController {
     }
     @PostMapping("/player/action")
     public ResponseEntity<GameStateResponse> playerAction(@RequestBody PlayerActionRequest request) {
-        if (!game.getPlayer().turnOver()) {
+        if (!game.getPlayer().turnOver() && game.getHandRunning()) {
             game.playerAction(request.getAction());
         }
 
