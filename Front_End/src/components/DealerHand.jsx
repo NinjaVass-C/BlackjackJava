@@ -17,9 +17,10 @@ export default function DealerHand({ hand, turnOver }) {
         )
     } else {
         return (
-            <div className="dealer-hand">
-                DEALER CARDS
-                <pre className="card">
+            <div className="dealer-container">
+                <div className="dealer-hand">
+                    DEALER CARDS
+                    <pre className="card">
 {`-------------
 |             |
 |             |
@@ -30,9 +31,10 @@ export default function DealerHand({ hand, turnOver }) {
 |             |
 |             |
 --------------`}
-            </pre>
-                <Card rank={hand.cards[1].rank} suit = {hand.cards[1].suit} />
-    </div>
+                </pre>
+                    <Card rank={hand.cards[1].rank} suit = {hand.cards[1].suit} />
+                </div>
+            </div>
     )
     }
 
