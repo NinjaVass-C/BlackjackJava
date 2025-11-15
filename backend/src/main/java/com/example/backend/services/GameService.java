@@ -139,7 +139,7 @@ public class GameService {
             else if (pHand.getHandValue() == dealerCards && !pHand.getBust()) {
                 player.addChips(pHand.getAnte());
             }
-            else if (pHand.getHandValue() < dealerCards && dealerCards > 21) {
+            else if (pHand.getHandValue() < dealerCards && dealerCards > 21 && !pHand.getBust()) {
                 player.addChips(pHand.getAnte() * 2);
             }
         }
