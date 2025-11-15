@@ -27,13 +27,12 @@ public class Dealer {
         return cards.getHandValue();
     }
     // After player stands, deal cards.
-    public int dealToEnd(Deck activeDeck, boolean playerBust) {
+    public void dealToEnd(Deck activeDeck, boolean playerBust) {
         if (!playerBust) {
             while (this.getHandValue() < 17) {
                 cards.addCard(activeDeck.dealCard());
             }
         }
-        return this.getHandValue();
     }
 
     /**

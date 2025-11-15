@@ -59,7 +59,7 @@ public class Hand {
      */
     public boolean addCard(Card card) {
         cards.add(card);
-        return this.getHandValue() < 21;
+        return this.getHandValue() >= 21;
     }
 
 

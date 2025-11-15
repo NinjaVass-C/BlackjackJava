@@ -100,7 +100,7 @@ export default function GameBoard() {
     }
 
     const updateGameState = (data) => {
-        console.log(data)
+        console.log("Hand index: " + data.activeHandIndex)
         setChips(data.chips)
         setPlayerHands(data.playerHands)
         setDealerHand(data.dealerHand)

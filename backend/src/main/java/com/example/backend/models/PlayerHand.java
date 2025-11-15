@@ -68,7 +68,7 @@ public class PlayerHand {
         hasBust = hand.addCard(hitCard);
         if (!hasBust) {
             // checking for hand active,
-            hasBlackJack = getHandValue() != 21;
+            hasBlackJack = getHandValue() == 21;
         }
         return !hasBust;
     }
@@ -82,13 +82,10 @@ public class PlayerHand {
     }
 
     /**
-     * Function that checks if hand value is equal to 21,
-     * Only called on original dealt hand
-     * @return boolean hand is equal to blackjack
+     * Function that checks if hand value is equal to 21
      */
-    public boolean hasAutoBlackjack() {
+    public void hasAutoBlackjack() {
         hasAutoBlackjack = hand.getHandValue() == 21;
-        return hasAutoBlackjack;
     }
 
     /**
@@ -111,7 +108,7 @@ public class PlayerHand {
         if (cards.size() > 2) {
             return false;
         }
-        return (cards.get(0).getSuit().equals(cards.get(1).getSuit()) && (cards.get(0).getRank() == cards.get(1).getRank()));
+        return (cards.get(0).getRank() == cards.get(1).getRank());
     }
 
     /**

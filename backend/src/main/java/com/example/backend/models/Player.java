@@ -37,6 +37,7 @@ public class Player {
 
     public void WipeCards() {
         hands.clear();
+        activeHandIndex = 0;
     }
 
     /**
@@ -68,6 +69,7 @@ public class Player {
     public void addHand(int ante) {
         int handCtr = hands.size();
         hands.add(new PlayerHand(ante, handCtr));
+
         removeChips(ante);
     }
 

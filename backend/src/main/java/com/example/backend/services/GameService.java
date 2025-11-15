@@ -27,6 +27,7 @@ public class GameService {
     public boolean addHand(int ante) {
         //@todo this is what the front end needs currently, should do something with react to fix the card cleaning process
         if (emptyCards) {
+            emptyCards = false;
             handRunning = false;
             dealer.WipeCards();
             player.WipeCards();
@@ -62,15 +63,15 @@ public class GameService {
     }
 
     /**
-     * Preliminary check for hand, ensuring user does not get asked to make
+     * Check for hand, ensuring user does not get asked to make
      * a turn on an inactive hand
      * @return hand is active or not.
      */
     public boolean checkHandStatus() {
         PlayerHand hand = player.getActiveHand();
-        if (hand.getAutoBlackjack() || hand.getBust() || hand.getHasBlackjack()) {
+        if (hand.getAutoBlackjack()) {
             player.nextHand();
-            return false;
+            checkHandStatus();
         }
         return true;
     }
@@ -84,10 +85,6 @@ public class GameService {
     public boolean playerAction(PlayerAction.Action action) {
         PlayerHand hand = player.getActiveHand();
         boolean handActive = true;
-        handActive = checkHandStatus();
-        if (!handActive) {
-            return handActive;
-        }
             switch (action) {
                 case HIT:
                     handActive = hand.hit(deck.dealCard());
@@ -115,15 +112,21 @@ public class GameService {
                 default:
                     throw new IllegalArgumentException("Invalid action");
             }
+
         if (!handActive) {
             player.nextHand();
+            if (!player.turnOver()) {
+                checkHandStatus();
+            }
+        }
+        if (player.turnOver()) {
+            dealer.dealToEnd(deck, player.checkAllHandsBust());
         }
         return handActive;
     }
 
     public void resolveRound() {
-        int dealerCards = dealer.dealToEnd(deck, player.checkAllHandsBust());
-
+        int dealerCards = dealer.getCards().getHandValue();
         for (PlayerHand pHand : player.getHands()) {
             if (pHand.getAutoBlackjack()) {
                 player.addChips((int) Math.ceil(pHand.getAnte() + (pHand.getAnte() * 1.5)));
@@ -157,6 +160,5 @@ public class GameService {
         this.player = new Player(chips);
         this.dealer = new Dealer();
     }
-
 
 }
