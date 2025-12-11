@@ -19,19 +19,6 @@ Blackjack, the notorious game found in casinos worldwide, is a game of **logic, 
 
 ---
 
-## Planned Improvements
-
-Although the project is functional, the following enhancements could make it a more polished flagship project:
-
-* **Better UI/UX**: Add animations, card graphics, and smoother transitions.
-* **Mobile Support**: Responsive design for mobile devices.
-* **AI Dealer/Player**: Implement AI to simulate dealer strategy and optional player suggestions.
-* **Game History/Statistics**: Track hands played, win/loss ratio, and betting trends.
-* **Persistent Configurations**: Allow saving chip counts, deck preferences, and settings between sessions.
-* **Multiplayer**: Support multiple players in a single session.
-
----
-
 ## Tech Stack
 
 * **Frontend**: React.js
